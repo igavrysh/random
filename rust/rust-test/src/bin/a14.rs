@@ -17,12 +17,8 @@ struct Person {
     color: String,
 }
 
-fn print_color(color: &str) {
-    println!("color: {:?}", color);
-}
-
-fn print_name(name: &str) {
-    println!("name: {:?}", name);
+fn print(data: &str) {
+    println!("{:?}", data);
 }
 
 fn main() {
@@ -46,8 +42,8 @@ fn main() {
 
     for person in people {
         if person.age <= 10 {
-            print_name(&person.name);
-            print_color(&person.color);
+            print(&person.name);
+            print(&person.color);
         }
     }
 }
