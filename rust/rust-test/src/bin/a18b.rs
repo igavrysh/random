@@ -1,36 +1,25 @@
 // Topic: Result & the question mark operator
 //
-// Summary:
-//   This small program simulates unlocking a door using digital keycards
-//   backed by a database. Many errors can occur when working with a database,
-//   making the question mark operator the perfect thing to use to keep
-//   the code managable.
-//
 // Requirements:
-// * Write the body of the 'authorize function. The steps to authorize a user are:
-//   1. Connect to the database
-//   2. Find the employee with the 'find_ employee' database function
-//   3. Get a keycard with the 'get_keycard' database function
-//   4. Determine if the keycard's 'access_level' is sufficient, using the
-//      required_access_level' function implemented on 'ProtectedLocation
-//      * Higher 'access_Level' values grant more access to Protectedlocations
-//        1000 can access 1000 and lower. 800 can access 500 but not 1000,
-// * Run the program after writing your 'authorize' function. Expected output:
-//   Ok(Allow)
-//   Ok(Deny)
+// * Determine if an employee can access a building using a digital keycard
+// * Employees that can access the building are:
+//   * Maintenance crews
+//   * Marketing department employees
+//   * Managers
+// * Other employees that work at the company are:
+//   * Line supervisors
+//   * Kitchen staff
+//   * Assembly technicians
+// * Ensure that terminated employees cannot access the building
+//   regardless of their position
+//
+// Notes:
+// * Use an enum to represent all types of employees
+// * Use a struct to store the employee type and whether they are
+//   still employed
+// * Use a function that returns a Result to determine if the employee
+//   may enter the building
+// * Print whether the employee may access the building
+//   * Must use a function that utilizes the question mark operator to do this
 
-fn authorize() {
-
-}
-
-fn find_employee() {
-
-}
-
-fn get_keyword() {
-    
-}
-
-fn main() {
-
-}
+fn main() {}
