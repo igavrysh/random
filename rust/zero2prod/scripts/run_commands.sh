@@ -5,6 +5,5 @@ sqlx migrate add create_subscriptions_table
 # Run migration
 sqlx migrate run
 
-
 SKIP_DOCKER=true ./scripts/init_db.sh
 
