@@ -137,3 +137,31 @@ docker network rm [networkID]
 ```
 docker images zero2prod
 ```
+
+## Digital Ocean
+
+### Setup Token
+
+Create token at https://cloud.digitalocean.com/account/api/tokens & enter it when prompted by command below:
+```
+doctl auth init
+```
+
+Check correct setup by:
+```
+doctl account get
+```
+
+### Create App Based on spec.yaml
+> Auth github before: GitHub user not authenticated: 
+Auth github via https://cloud.digitalocean.com/apps/github/install
+by https://www.digitalocean.com/community/questions/how-to-properly-link-github-repositories-in-app-platform
+
+```
+doctl apps create --spec spec.yaml
+```
+
+### View app
+```
+doctl apps list
+```
