@@ -11,7 +11,7 @@ FROM chef as builder
 COPY --from=planner /app/recipe.json recipe.json
 
 # Build our project dependencies, not our application
-RUN carog chef cook --release --recipe-path recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
 
 # Up to this point, if our dependency tree stays the same,
 # all alyers should be cached.
