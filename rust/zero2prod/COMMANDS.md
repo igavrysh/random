@@ -165,3 +165,10 @@ doctl apps create --spec spec.yaml
 ```
 doctl apps list
 ```
+
+### Update spec and deploy
+```
+doctl apps update <app uuid> --spec spec.yaml
+# e.g.
+doctl apps update ee43fcea-9230-4fb5-88aa-0bac02066448 --spec spec.yaml
+```
