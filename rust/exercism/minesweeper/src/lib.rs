@@ -1,0 +1,14 @@
+pub mod take_skip;
+pub mod my_sol;
+pub mod best_functional;
+pub mod checking_range;
+pub mod another_func;
+pub mod another_func2;
+pub mod another_func3;
+pub mod decoupled;
+pub mod iterative;
+pub mod iterative2;
+pub mod as_bytes;
+pub mod decoupled2;
+pub mod iterative3;
+pub mod iterative4;
