@@ -15,7 +15,65 @@
 // * It is not necessary to have data fields or function implementations
 //   for the vehicle bodies/colors
 
-trait Body {}
-trait Color {}
+trait Body {
+    fn desc(&self) -> String;
+}
+trait Color {
+    fn desc(&self) -> String;
+}
 
-fn main() {}
+struct Vehicle<B: Body, C: Color> {
+    body: B,
+    color: C,
+}
+
+impl<B: Body, C:Color> Vehicle<B, C> {
+
+    fn print_info(&self) {
+        println!("vehicle info: {{ body: {}, color: {} }}", 
+            self.body.desc(), 
+            self.color.desc()
+        )
+    }
+
+    fn new(body: B, color: C) -> Self {
+        Vehicle { body, color }
+    }
+}
+enum BodyType {
+    Truck,
+    Car,
+    Scooter,
+}
+
+impl Body for BodyType {
+    fn desc(&self) -> String {
+        match self {
+            BodyType::Truck => "truck",
+            BodyType::Car => "car",
+            BodyType::Scooter => "scooter",
+        }.into()
+    }
+}
+
+enum ColorIso {
+    Red,
+    White,
+    Yellow,
+}
+
+impl Color for ColorIso {
+    fn desc(&self) -> String {
+        match self {
+            ColorIso::Red => "iso red",
+            ColorIso::White => "iso white",
+            ColorIso::Yellow => "iso yellow",
+        }.into()
+    }
+}
+fn main() {
+    let car1 = Vehicle::new(BodyType::Car, ColorIso::Red);
+    car1.print_info();
+    let car2 = Vehicle::new(BodyType::Truck, ColorIso::Yellow);
+    car2.print_info(); 
+}
