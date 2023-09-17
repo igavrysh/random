@@ -10,6 +10,7 @@
 // * Create a function for each type of clothes (shoes, shirt, pants)
 //   that accepts the new type specific to that type of clothing
 
+#[derive(Debug)]
 enum Color {
     Black,
     Blue,
@@ -23,4 +24,34 @@ enum Color {
     Yellow,
 }
 
-fn main() {}
+#[derive(Debug)]
+struct Shoes(Color);
+
+impl Shoes {
+    fn new(color: Color) -> Self {
+        Self(color)
+    }
+}
+
+#[derive(Debug)]
+struct Shirt(Color);
+
+impl Shirt {
+    fn new(color: Color) -> Self {
+        Self(color)
+    }
+}
+
+#[derive(Debug)]
+struct Pants(Color);
+
+impl Pants {
+    fn new(color: Color) -> Self {
+        Self(color)
+    }
+}
+
+fn main() {
+    let red_shoes = Shoes::new(Color::Red);
+    println!("redshoes: {:?}", red_shoes);
+}

@@ -16,4 +16,74 @@
 // Notes:
 // * Optionally use generics for each state
 
-fn main() {}
+#[derive(Debug)]
+struct Luggage<State> {
+    id: String,
+    state: State
+}
+
+impl<State> Luggage<State> {
+    fn transition<NewState>(self, new_state: NewState) -> Luggage<NewState> {
+        Luggage {
+            id: self.id,
+            state: new_state,
+        }
+    }
+}
+
+#[derive(Debug)]
+struct CheckIn;
+
+#[derive(Debug)]
+struct OnLoading;
+
+#[derive(Debug)]
+struct Offloading;
+
+#[derive(Debug)]
+struct AwaitingPickup;
+
+#[derive(Debug)]
+struct EndCustody;
+
+impl Luggage<CheckIn> {
+    fn new(id: String) -> Self {
+        Self {
+            id: id,
+            state: CheckIn,
+        }
+    }
+
+    fn checkin(self) -> Luggage<OnLoading> {
+        self.transition(OnLoading)
+    } 
+}
+
+impl Luggage<OnLoading> {
+    fn onload(self) -> Luggage<Offloading> {
+        self.transition(Offloading)
+    }
+}
+
+impl Luggage<Offloading> {
+    fn offload(self) -> Luggage<AwaitingPickup> {
+        self.transition(AwaitingPickup)
+    }
+}
+
+impl Luggage<AwaitingPickup> {
+    fn awaiting_pickup(self) -> Luggage<EndCustody> {
+        self.transition(EndCustody)
+    }
+}
+
+fn main() {
+    let luggage = Luggage::new("abc123".to_owned())
+        .checkin()
+        .onload()
+        .offload()
+        .awaiting_pickup();
+
+    println!("{:?}", luggage);
+    println!("Luggage state: {:?}", luggage.state);
+}

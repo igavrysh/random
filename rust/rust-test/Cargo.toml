@@ -13,4 +13,3 @@ path = "src/lib/mod.rs"
 crossbeam-channel = "0.5.8"
 thiserror = "1.0.44"
 chrono = "0.4.26"
-
