@@ -54,4 +54,43 @@ enum Tile {
     Wood,
 }
 
-fn main() {}
+fn tile_desc(t: &Tile) -> Option<String> {
+    match t {
+        Tile::Brick(s @ BrickStyle::Gray | s @ BrickStyle::Red) 
+            => Some(format!("The brick color: {:?}", s)),
+        Tile::Brick(s) 
+            => Some(format!("[{:?}] brick", s)),
+        Tile::Water(Pressure(p)) if *p >= 10 
+            => Some("High water pressure!".to_owned()),
+        Tile::Water(Pressure(p)) 
+            => Some(format!("Water pressure level: [{}]", p)),
+        Tile::Grass | Tile::Dirt | Tile::Sand 
+            => Some(String::from("Ground tile")),
+        Tile::Treasure(TreasureChest{content: TreasureItem::Gold, amount}) if *amount >= 100
+            => Some("Lots of gold!".to_string()),
+        _ => None,
+    }
+}
+
+fn main() {
+    let tiles = vec!(
+        Tile::Brick(BrickStyle::Red), 
+        Tile::Treasure(TreasureChest { content: TreasureItem::Gold, amount: 120 }),
+        Tile::Water(Pressure(12)),
+        Tile::Dirt,
+        Tile::Treasure(TreasureChest { content: TreasureItem::SuperPower, amount: 42 }),
+        Tile::Grass,
+        Tile::Wood,
+        Tile::Sand,
+        Tile::Brick(BrickStyle::Dungeon),
+        Tile::Brick(BrickStyle::Gray),
+    );
+
+    tiles.iter().for_each(|t| {
+        match tile_desc(t) {
+            Some(s) => println!("{}", s),
+            _ => ()
+        }
+
+    })
+}

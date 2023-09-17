@@ -35,10 +35,10 @@ impl<State> Luggage<State> {
 struct CheckIn;
 
 #[derive(Debug)]
-struct OnLoading;
+struct OnLoad;
 
 #[derive(Debug)]
-struct Offloading;
+struct Offload;
 
 #[derive(Debug)]
 struct AwaitingPickup;
@@ -54,18 +54,18 @@ impl Luggage<CheckIn> {
         }
     }
 
-    fn checkin(self) -> Luggage<OnLoading> {
-        self.transition(OnLoading)
+    fn checkin(self) -> Luggage<OnLoad> {
+        self.transition(OnLoad)
     } 
 }
 
-impl Luggage<OnLoading> {
-    fn onload(self) -> Luggage<Offloading> {
-        self.transition(Offloading)
+impl Luggage<OnLoad> {
+    fn onload(self) -> Luggage<Offload> {
+        self.transition(Offload)
     }
 }
 
-impl Luggage<Offloading> {
+impl Luggage<Offload> {
     fn offload(self) -> Luggage<AwaitingPickup> {
         self.transition(AwaitingPickup)
     }
