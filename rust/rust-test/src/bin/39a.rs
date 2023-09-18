@@ -24,18 +24,52 @@
 use crossbeam_channel::{unbounded, Receiver};
 use std::thread::{self, JoinHandle};
 
+#[derive(Debug)]
 enum LightMsg {
     // Add additional variants needed to complete the exercise
     ChangeColor(u8, u8, u8),
     Disconnect,
 }
 
+#[derive(Debug)]
 enum LightStatus {
     Off,
     On,
 }
 
+fn print_state(status: &LightStatus, color: &Option<(u8, u8, u8)>) {
+    println!("{status:?}, {color:?}");
+}
+
 fn spawn_light_thread(receiver: Receiver<LightMsg>) -> JoinHandle<LightStatus> {
+    thread::spawn(move || {
+        let mut status = LightStatus::Off;
+        let mut color: Option<(u8, u8, u8)> = None;
+        loop {
+            match receiver.recv() {
+                Ok(m) => {
+                    match m {
+                        LightMsg::ChangeColor(r, g, b) => {
+                            status = LightStatus::On;
+                            color = Some((r, g, b));
+                            print_state(&status, &color);
+                        },
+                        LightMsg::Disconnect => {
+                            status = LightStatus::Off;
+                            color = None;
+                            print_state(&status, &color);
+                            break;
+                        }
+                    }
+                },
+                Err(e) => {
+                    print_state(&status, &color);
+                    break;
+                },
+            }
+        }
+        status
+    })
     // Add code here to spawn a thread to control the light bulb
 }
 
