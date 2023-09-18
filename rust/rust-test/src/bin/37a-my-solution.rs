@@ -22,39 +22,43 @@
 // * Utilize the `thiserror` crate for your error type
 // * Run `cargo test --bin a37` to test your implementation
 use thiserror::Error;
+use std::num::ParseIntError;
 
 #[derive(Debug, Eq, PartialEq)]
 struct Rgb(u8, u8, u8);
 
 #[derive(Debug, Error)]
-enum RgbError {
-    #[error("hex colors must begin with as hash (#)")]
-    MissingHash,
-    #[error("failed to parse hex digit: {0}")]
-    ParseError(#[from] std::num::ParseIntError),
-    #[error("invalid hex color length (must be 6)")]
-    LengthError,
+enum RgbConvertError {
+    #[error("parse string error: {0}")]
+    ParseStrError(#[from] ParseIntError),
+    #[error("out of range error, should be in range of [0, 255], actual is {0}")]
+    OutOfRangeError(u32),
+    #[error("wrong format for color, must be in range [\"#000000\"-\"#FFFFFF\"], actual string: {0}")]
+    WrongFormat(String),
+}
+
+fn hex_chars_to_rgb_comp(h: &char, l: &char) -> Result<u8, RgbConvertError> {
+    let digit = u32::from_str_radix(&format!("{}{}", h, l), 16)?;
+    match digit {
+        val @ 0..=255 => Ok(val as u8),
+        val => Err(RgbConvertError::OutOfRangeError(val))
+    }
 }
 
 impl TryFrom<&str> for Rgb {
-    type Error = RgbError;
+    type Error = RgbConvertError;
 
-    fn try_from(hex: &str) -> Result<Self, Self::Error> {
-        if !hex.starts_with('#') {
-            return Err(RgbError::MissingHash);
+    fn try_from(value: &str) -> Result<Self, RgbConvertError> {
+        let chrs: Vec<_> = value.chars().collect();
+        match chrs.as_slice() {
+            [_first @ '#', r_h, r_l, g_h, g_l, b_h, b_l] => {
+                let r = hex_chars_to_rgb_comp(r_h, r_l)?;
+                let g = hex_chars_to_rgb_comp(g_h, g_l)?;
+                let b = hex_chars_to_rgb_comp(b_h, b_l)?;
+                Ok(Rgb(r, g, b))
+            }
+            [..] => Err(RgbConvertError::WrongFormat(value.to_owned()))
         }
-
-        if hex.len() != 7 {
-            return Err(RgbError::LengthError);
-        }
-
-        let (r, g, b) = (
-            u8::from_str_radix(&hex[1..=2], 16)?,
-            u8::from_str_radix(&hex[3..=4], 16)?,
-            u8::from_str_radix(&hex[5..=6], 16)?,
-        );
-
-        Ok(Self(r, g, b))
     }
 }
 
