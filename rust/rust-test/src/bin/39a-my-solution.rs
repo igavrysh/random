@@ -21,17 +21,14 @@
 //   by telling the thread to self-terminate
 // * Use `cargo test --bin a39` to test your program to ensure all cases are covered
 
-use colored::Colorize;
 use crossbeam_channel::{unbounded, Receiver};
-use std::{thread::{self, JoinHandle}};
+use std::thread::{self, JoinHandle};
 
 #[derive(Debug)]
 enum LightMsg {
     // Add additional variants needed to complete the exercise
     ChangeColor(u8, u8, u8),
     Disconnect,
-    On,
-    Off,
 }
 
 #[derive(Debug)]
@@ -46,54 +43,37 @@ fn print_state(status: &LightStatus, color: &Option<(u8, u8, u8)>) {
 
 fn spawn_light_thread(receiver: Receiver<LightMsg>) -> JoinHandle<LightStatus> {
     thread::spawn(move || {
-        let mut light_status = LightStatus::Off;
+        let mut status = LightStatus::Off;
+        let mut color: Option<(u8, u8, u8)> = None;
         loop {
-            if let Ok(msg) = receiver.recv() {
-                match msg {
-                    LightMsg::ChangeColor(r, g, b) => {
-                        println!("Color changed to: {}", " ".on_truecolor(r, g, b));
-                        match light_status {
-                            LightStatus::Off => println!("Light is OFF"),
-                            LightStatus::On => println!("Light is ON")
+            match receiver.recv() {
+                Ok(m) => {
+                    match m {
+                        LightMsg::ChangeColor(r, g, b) => {
+                            status = LightStatus::On;
+                            color = Some((r, g, b));
+                            print_state(&status, &color);
+                        },
+                        LightMsg::Disconnect => {
+                            status = LightStatus::Off;
+                            color = None;
+                            print_state(&status, &color);
+                            break;
                         }
-                    },
-                    LightMsg::On => {
-                        println!("Turned light ON");
-                        light_status = LightStatus::On;
-                    },
-                    LightMsg::Off => {
-                        println!("Turned light OFF");
-                        light_status = LightStatus::Off;
-                    },
-                    LightMsg::Disconnect => {
-                        println!("disconnecting");
-                        light_status = LightStatus::Off;
-                        break;
                     }
-                }
-            } else {
-                println!("channel disconnected");
-                light_status = LightStatus::Off;
-                break;
+                },
+                Err(e) => {
+                    print_state(&status, &color);
+                    break;
+                },
             }
         }
-        light_status
+        status
     })
+    // Add code here to spawn a thread to control the light bulb
 }
 
-fn main() {
-    let (s, r) = unbounded();
-    let light = spawn_light_thread(r);
-
-    s.send(LightMsg::On);
-    s.send(LightMsg::ChangeColor(255, 0, 0));
-    s.send(LightMsg::ChangeColor(0, 255, 0));
-    s.send(LightMsg::ChangeColor(0, 0, 255));
-    s.send(LightMsg::Off);
-    s.send(LightMsg::Disconnect);
-
-    let light_status = light.join();
-}
+fn main() {}
 
 #[cfg(test)]
 mod test {
