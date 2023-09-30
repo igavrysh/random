@@ -10,6 +10,7 @@
 // * Create a function for each type of clothes (shoes, shirt, pants)
 //   that accepts the new type specific to that type of clothing
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum Color {
     Black,
@@ -36,6 +37,7 @@ impl Shoes {
 #[derive(Debug)]
 struct Shirt(Color);
 
+#[allow(dead_code)]
 impl Shirt {
     fn new(color: Color) -> Self {
         Self(color)
@@ -45,6 +47,7 @@ impl Shirt {
 #[derive(Debug)]
 struct Pants(Color);
 
+#[allow(dead_code)]
 impl Pants {
     fn new(color: Color) -> Self {
         Self(color)

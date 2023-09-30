@@ -12,6 +12,7 @@
 
 const MOCK_DATA: &'static str = include_str!("mock-data.csv");
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Person<'a> {
     name: &'a str,

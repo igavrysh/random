@@ -1,8 +1,10 @@
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Package {
     weight: f64,
 }
 
+#[allow(dead_code)]
 impl Package {
     fn new(weight: f64) -> Self {
         Self { weight }

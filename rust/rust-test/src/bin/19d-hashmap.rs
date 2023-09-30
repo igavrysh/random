@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Contents {
     content: String,

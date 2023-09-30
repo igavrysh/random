@@ -1,6 +1,7 @@
-use chrono::{Utc, DateTime, Duration};
+use chrono::{Utc, DateTime};
 use thiserror::Error;
 
+#[allow(dead_code)]
 struct SubwayPass {
     id: usize,
     funds: isize,

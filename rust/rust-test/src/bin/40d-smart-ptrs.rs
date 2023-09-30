@@ -1,18 +1,21 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum MenuItem {
     Drink,
     Salad,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct ItemOrder {
     item: MenuItem,
     quantity: u32,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct TableOrder {
     items: Vec<ItemOrder>,

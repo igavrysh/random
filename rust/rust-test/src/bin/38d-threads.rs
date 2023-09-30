@@ -14,6 +14,6 @@ fn main() {
         }
     });
 
-    a.join();
-    b.join();
+    _ = a.join();
+    _ = b.join();
 }

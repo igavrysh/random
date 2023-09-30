@@ -18,6 +18,7 @@
 //   * For the ok variant, print any message you want
 //   * For the Err variant, print out the error message
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct Adult {
     name: String,

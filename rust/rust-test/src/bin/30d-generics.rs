@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 struct Dimensions {
     width: f64,
     height: f64,
@@ -19,6 +20,7 @@ impl<T: Convey> ConveryorBelt<T> {
     }
 }
 
+#[allow(dead_code)]
 struct CarPart {
     width: f64,
     height: f64,

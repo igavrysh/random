@@ -30,6 +30,7 @@ impl Dims {
     }
 }
 
+#[allow(dead_code)]
 enum Color {
     Red,
     Blue,
@@ -45,7 +46,7 @@ impl Color {
 }
 
 impl ShippingBox {
-    fn new(weight: f64, color: Color, dims: Dims) -> Self {
+    fn new(_weight: f64, _color: Color, dims: Dims) -> Self {
         ShippingBox { weight: 1.0, color: Color::Red, dims: dims }
     }
 

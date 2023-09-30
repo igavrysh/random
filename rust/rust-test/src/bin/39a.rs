@@ -23,7 +23,7 @@
 
 use colored::Colorize;
 use crossbeam_channel::{unbounded, Receiver};
-use std::{thread::{self, JoinHandle}};
+use std::thread::{self, JoinHandle};
 
 #[derive(Debug)]
 enum LightMsg {
@@ -40,6 +40,7 @@ enum LightStatus {
     On,
 }
 
+#[allow(dead_code)]
 fn print_state(status: &LightStatus, color: &Option<(u8, u8, u8)>) {
     println!("{status:?}, {color:?}");
 }
@@ -85,14 +86,14 @@ fn main() {
     let (s, r) = unbounded();
     let light = spawn_light_thread(r);
 
-    s.send(LightMsg::On);
-    s.send(LightMsg::ChangeColor(255, 0, 0));
-    s.send(LightMsg::ChangeColor(0, 255, 0));
-    s.send(LightMsg::ChangeColor(0, 0, 255));
-    s.send(LightMsg::Off);
-    s.send(LightMsg::Disconnect);
+    _ = s.send(LightMsg::On);
+    _ = s.send(LightMsg::ChangeColor(255, 0, 0));
+    _ = s.send(LightMsg::ChangeColor(0, 255, 0));
+    _ = s.send(LightMsg::ChangeColor(0, 0, 255));
+    _ = s.send(LightMsg::Off);
+    _ = s.send(LightMsg::Disconnect);
 
-    let light_status = light.join();
+    let _light_status = light.join();
 }
 
 #[cfg(test)]

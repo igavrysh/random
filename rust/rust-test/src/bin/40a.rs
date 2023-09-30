@@ -21,8 +21,33 @@
 // * Test your program by changing the vehicle status from both a storefront
 //   and from corporate
 
+use std::{cell::RefCell, rc::Rc};
+
 struct Corporate;
 
-struct StoreFront;
+struct StoreFront();
 
-fn main() {}
+type Rentals = Rc<RefCell<Vec<Rental>>>;
+
+enum VehicleType {
+    Sedan,
+    Pickup,
+    Truck,
+}
+
+enum VehicleStatus {
+    Available,
+    Unavailable,
+    Maintenance, 
+    Rented,
+}
+
+struct Rental {
+    vin: String,
+    veh_type: VehicleType,
+    status: VehicleStatus,
+}
+
+fn main() {
+
+}

@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 #[derive(Clone, Copy, Debug)]
 enum KeyPress {
     Down,
@@ -10,6 +11,7 @@ struct KeyEvent {
     state: KeyPress,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum InputEvent {
     Key(u16, KeyPress),

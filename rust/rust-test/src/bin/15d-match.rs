@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 enum Discount {
     Percent(i32),
     Flat(i32),

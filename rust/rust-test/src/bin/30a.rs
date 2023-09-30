@@ -40,6 +40,8 @@ impl<B: Body, C:Color> Vehicle<B, C> {
         Vehicle { body, color }
     }
 }
+
+#[allow(dead_code)]
 enum BodyType {
     Truck,
     Car,
@@ -56,6 +58,7 @@ impl Body for BodyType {
     }
 }
 
+#[allow(dead_code)]
 enum ColorIso {
     Red,
     White,

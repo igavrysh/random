@@ -6,6 +6,7 @@ fn get_input() -> io::Result<String> {
     Ok(buffer.trim().to_owned())
 }
 
+#[allow(dead_code)]
 fn print(str: String) {
     println!("{:?}", str);
 }

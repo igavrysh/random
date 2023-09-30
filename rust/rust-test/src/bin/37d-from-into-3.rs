@@ -1,12 +1,13 @@
 use thiserror::Error;
 
+#[allow(dead_code)]
 #[derive(Debug, Error)]
 enum NetworkError {
     #[error("connection timed out")]
     Timeout,
 }
 
-
+#[allow(dead_code)]
 #[derive(Debug, Error)]
 enum DatabaseError {
     #[error("error querying database")]
@@ -35,6 +36,7 @@ impl From<DatabaseError> for ApiError {
 }
 */
 
+#[allow(dead_code)]
 fn do_stuff() -> Result<(), ApiError> {
     Err(NetworkError::Timeout)?
 }

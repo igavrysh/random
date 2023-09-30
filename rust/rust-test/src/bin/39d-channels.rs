@@ -1,6 +1,7 @@
 use std::thread;
 use crossbeam_channel::unbounded;
 
+#[allow(dead_code)]
 enum ThreadMsg {
     PrintData(String),
     Sum(i64, i64),

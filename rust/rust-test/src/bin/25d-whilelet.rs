@@ -1,7 +1,7 @@
 fn main() {
     let mut data = Some(3);
 
-    while let Some(i) = data {
+    while let Some(_) = data {
         println!("loop");
         data = None;
     }

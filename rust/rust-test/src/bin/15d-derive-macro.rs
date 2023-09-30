@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 #[derive(Debug, Clone, Copy)] 
 enum Position {
     Manager,
@@ -5,6 +6,7 @@ enum Position {
     Worker,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, Copy)]
 struct Employee {
     position: Position,

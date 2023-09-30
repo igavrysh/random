@@ -10,6 +10,7 @@ enum City  {
     Fooville,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct IdCard {
     name: String,
@@ -27,6 +28,7 @@ impl IdCard {
     }
 }
 
+#[allow(dead_code)]
 impl<'a> YoungPeople<'a> {
     fn living_in_fooville(&self) -> Self {
         Self {

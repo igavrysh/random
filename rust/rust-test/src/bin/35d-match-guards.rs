@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 enum Status {
     Error(i32),
     Info,
@@ -7,7 +8,7 @@ enum Status {
 fn main() {
     let status = Status::Error(5);
     match status {
-        Status::Error(s @ 3) 
+        Status::Error(_s @ 3) 
             => println!("error three"),
         Status::Error(s @ 5..=6) 
             => println!("error 5 or 6: {}", s),

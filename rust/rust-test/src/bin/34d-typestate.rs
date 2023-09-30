@@ -15,6 +15,8 @@ struct Training;
 struct FailedTraining {
     score: u8,
 }
+
+#[allow(dead_code)]
 struct OnboardingComplete {
     score: u8,
 }

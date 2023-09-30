@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 #[derive(PartialEq, PartialOrd, Eq, Ord)]
 enum Difficulty {
     Easy,
@@ -11,7 +12,7 @@ fn main() {
     match stage {
         s if (s == 5 && diff == Difficulty::Easy) => println!("easy mode stage"),
         s if diff == Difficulty::Normal => println!("normal difficulty stage {}", s),
-        s @ 10 | s @ 15 => println!("stage 10 or 15"),
-        s => println!("stage {}", stage)    
+        s @ 10 | s @ 15 => println!("{s} stage 10 or 15"),
+        s => println!("{s} stage {}", stage)    
     }
 } 

@@ -21,9 +21,10 @@
 //   by telling the thread to self-terminate
 // * Use `cargo test --bin a39` to test your program to ensure all cases are covered
 
-use crossbeam_channel::{unbounded, Receiver};
+use crossbeam_channel::Receiver;
 use std::thread::{self, JoinHandle};
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum LightMsg {
     // Add additional variants needed to complete the exercise
@@ -31,16 +32,19 @@ enum LightMsg {
     Disconnect,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 enum LightStatus {
     Off,
     On,
 }
 
+#[allow(dead_code)]
 fn print_state(status: &LightStatus, color: &Option<(u8, u8, u8)>) {
     println!("{status:?}, {color:?}");
 }
 
+#[allow(dead_code)]
 fn spawn_light_thread(receiver: Receiver<LightMsg>) -> JoinHandle<LightStatus> {
     thread::spawn(move || {
         let mut status = LightStatus::Off;
@@ -62,7 +66,7 @@ fn spawn_light_thread(receiver: Receiver<LightMsg>) -> JoinHandle<LightStatus> {
                         }
                     }
                 },
-                Err(e) => {
+                Err(_e) => {
                     print_state(&status, &color);
                     break;
                 },
