@@ -1,8 +1,8 @@
-use std::collections::HashMap;
+//use std::collections::HashMap;
 
 // treat mod as individual files
 mod greet {
-    use std::collections::HashMap;
+    //use std::collections::HashMap;
 
     pub fn hello(){
         println!("hello")

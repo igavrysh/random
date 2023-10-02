@@ -23,18 +23,20 @@
 
 use std::{cell::RefCell, rc::Rc};
 
-struct Corporate;
+struct Corporate(Rentals);
 
-struct StoreFront();
+struct StoreFront(Rentals);
 
 type Rentals = Rc<RefCell<Vec<Rental>>>;
 
+#[derive(Debug)]
 enum VehicleType {
     Sedan,
     Pickup,
     Truck,
 }
 
+#[derive(Debug, PartialEq)]
 enum VehicleStatus {
     Available,
     Unavailable,
@@ -42,6 +44,7 @@ enum VehicleStatus {
     Rented,
 }
 
+#[derive(Debug)]
 struct Rental {
     vin: String,
     veh_type: VehicleType,
@@ -49,5 +52,59 @@ struct Rental {
 }
 
 fn main() {
+    let rentals = Rc::new(RefCell::new(
+        vec![
+            Rental { 
+                vin: "123".to_owned(), 
+                veh_type: VehicleType::Pickup, 
+                status: VehicleStatus::Available,
+            },
+            Rental { 
+                vin: "qwerty".to_owned(), 
+                veh_type: VehicleType::Truck, 
+                status: VehicleStatus::Available,
+            },
+            Rental { 
+                vin: "qwerty1".to_owned(), 
+                veh_type: VehicleType::Truck, 
+                status: VehicleStatus::Unavailable,
+            },
+            Rental { 
+                vin: "qwerty2".to_owned(), 
+                veh_type: VehicleType::Truck, 
+                status: VehicleStatus::Maintenance,
+            },
+            Rental { 
+                vin: "qwerty3".to_owned(), 
+                veh_type: VehicleType::Truck, 
+                status: VehicleStatus::Rented,
+            },
+            Rental { 
+                vin: "abc".to_owned(), 
+                veh_type: VehicleType::Sedan, 
+                status: VehicleStatus::Available,
+            },
+        ]
+    ));
+    let sf = StoreFront(Rc::clone(&rentals));
+    let corp = Corporate(Rc::clone(&rentals));
+
+    for r in sf.0.borrow_mut().iter_mut() {
+        if r.status == VehicleStatus::Available {
+            r.status = VehicleStatus::Rented; 
+            break;
+        }
+    }
+
+    for r in corp.0.borrow_mut().iter_mut() {
+        if r.status == VehicleStatus::Available {
+            r.status = VehicleStatus::Rented; 
+            break;
+        }
+    }
+
+    let cars = rentals.borrow_mut();
+
+    println!("cars: {cars:?}");
 
 }

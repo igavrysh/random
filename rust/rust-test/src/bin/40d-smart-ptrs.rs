@@ -32,7 +32,6 @@ fn new_table_order() -> TableOrder {
 
 type Order = Rc<RefCell<Vec<TableOrder>>>;
 
-
 #[derive(Debug)]
 struct Chef(Order);
 
@@ -50,16 +49,21 @@ fn main() {
 
     let order = new_table_order();
 
-    {
-        orders.borrow_mut().push(order);
-    }
+    
+    orders.borrow_mut().push(order);
+    
+    //let s1 = chef.0.borrow_mut();
 
     dbg!(chef.0.borrow());
-    drop(chef);
+    //drop(chef);
+
+    //let s2 = wait_staff.0.borrow();
 
     dbg!(wait_staff.0.borrow());
-    drop(wait_staff);
+    //drop(wait_staff);
+
+    //println!("s2: {s2:?}, s1: {s1:?}");
     
-    dbg!(account.0.borrow());
+    //dbg!(account.0.borrow());
 }
 
