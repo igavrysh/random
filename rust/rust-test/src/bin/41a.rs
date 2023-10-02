@@ -18,9 +18,14 @@
 //   - parking_lot
 
 use crossbeam_channel::{unbounded, Receiver, Sender};
+use parking_lot::Mutex;
 use std::collections::VecDeque;
+use std::sync::Arc;
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
+
+type SharedCmpledJobsCnter= Arc<Mutex<i32>>;
+
 
 /// Job given to workers.
 #[derive(Clone)]
@@ -56,12 +61,20 @@ impl Worker<Message> {
     }
 }
 
+fn incr_counter(counter: SharedCmpledJobsCnter) {
+    let mut data = counter.lock();
+    *data = *data+1;
+}
+
 /// Create a new worker to receive jobs.
-fn spawn_worker() -> Worker<Message> {
+fn spawn_worker(counter: SharedCmpledJobsCnter) -> Worker<Message> {
     let (tx, rx) = unbounded();
     // We clone the receiving end here so we have a copy to give to the
     // thread. This allows us to save the `tx` and `rx` into the Worker struct.
     let rx_thread = rx.clone();
+
+    let counter = Arc::clone(&counter);
+
     // Spawn a new thread.
     let handle = thread::spawn(move || {
         // VecDeque allows us to get jobs in the order they arrive.
@@ -75,8 +88,14 @@ fn spawn_worker() -> Worker<Message> {
                 // Get the next job.
                 for job in jobs.pop_front() {
                     match job {
-                        Job::Print(msg) => println!("{}", msg),
-                        Job::Sum(lhs, rhs) => println!("{}+{}={}", lhs, rhs, lhs + rhs),
+                        Job::Print(msg) => {
+                            println!("{}", msg);
+                            incr_counter(counter.clone());
+                        },
+                        Job::Sum(lhs, rhs) => {
+                            println!("{}+{}={}", lhs, rhs, lhs + rhs);
+                            incr_counter(counter.clone());
+                        },
                     }
                 }
                 // Check for messages on the channel.
@@ -130,11 +149,12 @@ fn main() {
     ];
 
     let jobs_sent = jobs.len();
+    let jobs_completed = Arc::new(Mutex::new(0));
 
     let mut workers = vec![];
     // Spawn 4 workers to process jobs.
     for _ in 0..4 {
-        let worker = spawn_worker();
+        let worker = spawn_worker(Arc::clone(&jobs_completed));
         workers.push(worker);
     }
 
@@ -160,4 +180,6 @@ fn main() {
     println!("Jobs sent: {}", jobs_sent);
 
     // print out the number of jobs completed here.
+    println!("Jobs completed: {}", *jobs_completed.lock());
+    
 }
