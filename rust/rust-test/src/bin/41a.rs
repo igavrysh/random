@@ -61,19 +61,12 @@ impl Worker<Message> {
     }
 }
 
-fn incr_counter(counter: SharedCmpledJobsCnter) {
-    let mut data = counter.lock();
-    *data = *data+1;
-}
-
 /// Create a new worker to receive jobs.
-fn spawn_worker(counter: SharedCmpledJobsCnter) -> Worker<Message> {
+fn spawn_worker(jobs_counter: SharedCmpledJobsCnter) -> Worker<Message> {
     let (tx, rx) = unbounded();
     // We clone the receiving end here so we have a copy to give to the
     // thread. This allows us to save the `tx` and `rx` into the Worker struct.
     let rx_thread = rx.clone();
-
-    let counter = Arc::clone(&counter);
 
     // Spawn a new thread.
     let handle = thread::spawn(move || {
@@ -90,13 +83,13 @@ fn spawn_worker(counter: SharedCmpledJobsCnter) -> Worker<Message> {
                     match job {
                         Job::Print(msg) => {
                             println!("{}", msg);
-                            incr_counter(counter.clone());
                         },
                         Job::Sum(lhs, rhs) => {
                             println!("{}+{}={}", lhs, rhs, lhs + rhs);
-                            incr_counter(counter.clone());
                         },
                     }
+                    let mut data = jobs_counter.lock();
+                    *data += 1;
                 }
                 // Check for messages on the channel.
                 if let Ok(msg) = rx_thread.try_recv() {
@@ -142,6 +135,14 @@ fn main() {
         Job::Sum(3, 4),
         Job::Print("thread".to_owned()),
         Job::Sum(9, 8),
+        Job::Print("thread".to_owned()),
+        Job::Sum(9, 8),
+        Job::Print("thread".to_owned()),
+        Job::Sum(9, 8),
+        Job::Print("thread".to_owned()),
+        Job::Sum(9, 8),
+        Job::Print("thread".to_owned()),
+        Job::Sum(9, 8),
         Job::Print("rust".to_owned()),
         Job::Sum(1, 2),
         Job::Print("compiler".to_owned()),
@@ -181,5 +182,5 @@ fn main() {
 
     // print out the number of jobs completed here.
     println!("Jobs completed: {}", *jobs_completed.lock());
-    
+
 }
