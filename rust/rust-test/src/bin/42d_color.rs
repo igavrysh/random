@@ -4,16 +4,19 @@ struct Color {
     b: u8,
 }
 
+/*
 struct ColorIntoIter {
     color: Color,
     position: u8,
 }
+*/
 
 struct ColorIter<'a> {
     color: &'a Color, 
     position: u8,
 }
 
+/*
 impl Iterator for ColorIntoIter {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
@@ -40,6 +43,8 @@ impl IntoIterator for Color {
     }
 }
 
+*/
+
 impl<'a> Iterator for ColorIter<'a> {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
@@ -60,7 +65,7 @@ impl<'a> IntoIterator for &'a Color {
     
     fn into_iter(self) -> Self::IntoIter {
         Self::IntoIter {
-            color: &self,
+            color: self,
             position: 0,
         }
     }
@@ -71,7 +76,10 @@ fn main() {
     for c in &color {
         println!("{}", c);
     }
+
+    /* 
     for c in color {
         println!("{}", c);
     }
+    */
 }
