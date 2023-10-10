@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use serde::{Deserialize, Serialize};
-use crate::domain::clip::{ClipError, Clip};
+use crate::domain::clip::ClipError;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, PartialOrd)]
 pub struct Password(Option<String>);

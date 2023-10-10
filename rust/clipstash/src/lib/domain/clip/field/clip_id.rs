@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::{data::DbId, domain::clip::Clip};
+use crate::data::DbId;
 use derive_more::Constructor;
 
 #[derive(Clone, Debug, Constructor, Deserialize, Serialize)]
