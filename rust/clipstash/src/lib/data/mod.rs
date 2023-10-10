@@ -66,3 +66,10 @@ impl FromStr for DbId {
         Ok(DbId(Uuid::parse_str(id)?))
     }
 }
+
+impl From<DbId> for String {
+    fn from(id: DbId) -> Self {
+        format!("{}", id.0)
+        //id.0.to_string()
+    }
+}
