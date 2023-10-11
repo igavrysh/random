@@ -7,7 +7,7 @@ pub trait PageContext {
     fn parent(&self) -> &str;
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Constructor)]
 pub struct Home {}
 
 impl Default for Home {
