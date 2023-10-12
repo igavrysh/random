@@ -2,10 +2,12 @@ html,body {
     height: 100%;
     font-size: 14px !important;
 }
+
 body {
     display: flex;
     flex-direction: column;
 }
+
 footer {
     flex-shrink: 1;
     border-top: 1px solid #485fc74f;

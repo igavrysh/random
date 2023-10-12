@@ -65,7 +65,9 @@ pub async fn new_clip(
         };
 
         match action::new_clip(req, database.get_pool()).await {
-            Ok(clip) => Ok(Redirect::to(uri!(get_clip(shortcode = clip.shortcode)))),
+            Ok(clip) => {
+                Ok(Redirect::to(uri!(get_clip(shortcode = clip.shortcode))))
+            },
             Err(e) => {
                 eprintln!("internal error: {}", e);
                 Err((
@@ -104,7 +106,7 @@ pub async fn new_clip(
 }
 
 pub fn routes() -> Vec<rocket::Route> {
-    rocket::routes![home, get_clip,]
+    rocket::routes![home, get_clip, new_clip]
 }
 
 pub mod catcher {
