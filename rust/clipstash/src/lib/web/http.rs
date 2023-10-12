@@ -11,8 +11,8 @@ use rocket::{uri, State};
 
 #[rocket::get("/")]
 fn home(renderer: &State<Renderer<'_>>) -> RawHtml<String> {
-    let str = renderer.render(ctx::Home::default(), &[]);
-    RawHtml(str)
+    let context = ctx::Home::default();
+    RawHtml(renderer.render(context, &[]))
 }
 
 pub fn routes() -> Vec<rocket::Route> {
@@ -37,7 +37,7 @@ pub mod catcher {
 
     #[catch(404)]
     fn not_found(req: &Request) -> &'static str {
-        "404"
+        "404 (ノಠ益ಠ)ノ彡┻━┻"
     }
 
     pub fn catchers() -> Vec<Catcher> {
