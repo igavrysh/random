@@ -20,11 +20,6 @@ struct StickerCarousel: View {
                     VStack {
                         if let processedPhoto = viewModel.processedPhotos[selectedPhoto.id] {
                             GradientSticker(processedPhoto: processedPhoto)
-
-//                            processedPhoto
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .clipShape(RoundedRectangle(cornerRadius: 15.0))
                         } else if viewModel.invalidPhotos.contains(selectedPhoto.id) {
                             InvalidStickerPlaceholder()
                         } else {
