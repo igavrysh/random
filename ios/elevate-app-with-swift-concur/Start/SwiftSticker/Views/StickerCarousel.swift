@@ -19,14 +19,19 @@ struct StickerCarousel: View {
                 ForEach(viewModel.selection) { selectedPhoto in
                     VStack {
                         if let processedPhoto = viewModel.processedPhotos[selectedPhoto.id] {
-                            processedPhoto
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 15.0))
+                            GradientSticker(processedPhoto: processedPhoto)
+
+//                            processedPhoto
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .clipShape(RoundedRectangle(cornerRadius: 15.0))
                         } else if viewModel.invalidPhotos.contains(selectedPhoto.id) {
                             InvalidStickerPlaceholder()
                         } else {
                             StickerPlaceholder()
+                                .task {
+                                    await viewModel.loadPhoto(selectedPhoto) 
+                                }
                         }
                     }
                     .containerRelativeFrame(.horizontal)

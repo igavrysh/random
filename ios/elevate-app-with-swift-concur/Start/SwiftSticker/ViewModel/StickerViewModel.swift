@@ -15,7 +15,7 @@ class StickerViewModel {
     var selection = [SelectedPhoto]()
 
     /// A dictionary that maps the photo ID to its processed version.
-    var processedPhotos = [SelectedPhoto.ID: Image]()
+    var processedPhotos = [SelectedPhoto.ID: ProcessedPhoto]()
 
     /// An array of photos that didn't process successfully.
     var invalidPhotos: [SelectedPhoto.ID] = []
@@ -28,13 +28,13 @@ class StickerViewModel {
         }
     }
 
-    func loadPhoto(_ item: SelectedPhoto) {
-        var data: Data?
+    func loadPhoto(_ item: SelectedPhoto) async {
+        var data: Data? = try? await item.loadTransferable(type: Data.self)
 
         if let cachedData = getCachedData(for: item.id) { data = cachedData }
 
         guard let data else { return }
-        processedPhotos[item.id] = Image(data: data)
+        processedPhotos[item.id] = PhotoProcessor().process(data: data)
 
         cacheData(item.id, data)
     }

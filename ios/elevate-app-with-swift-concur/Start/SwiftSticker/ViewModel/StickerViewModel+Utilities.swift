@@ -14,7 +14,8 @@ extension StickerViewModel {
         let selection = self.selection
         return Binding(
             get: { selection.map { $0.item } },
-            set: { value in Task { @MainActor in
+            set: { (value: [PhotosPickerItem]) in Task { @MainActor in
+                print("selected photos(\(value.count)): \(value)")
                 self.selection = value.map { item in .init(item) }
             }
             }

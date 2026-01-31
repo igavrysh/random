@@ -29,9 +29,12 @@ struct SelectedPhoto: Identifiable {
     init(_ item: PhotosPickerItem) {
         self.item = item
         if let id = item.itemIdentifier?.split(separator: "/").first {
+            print("reused id: \(String(id))")
             self.id = String(id)
         } else {
-            self.id = UUID().uuidString
+            let id = UUID().uuidString
+            print("generated id: \(id)")
+            self.id = id
         }
     }
 

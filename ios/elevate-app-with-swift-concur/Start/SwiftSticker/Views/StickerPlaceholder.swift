@@ -12,7 +12,11 @@ struct StickerPlaceholder: View {
         ZStack {
             RoundedRectangle(cornerRadius: 15.0)
                 .fill(Color.gray.quinary.shadow(.drop(color: .gray, radius: 15.0)))
-            ProgressView()
+            VStack {
+                ProgressView()
+
+                Text("StickerPlaceholder")
+            }
         }
     }
 }
