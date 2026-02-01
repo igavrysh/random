@@ -10,34 +10,21 @@ import CoreML
 import Vision
 import UIKit
 
-nonisolated class StickerService {
+// Vision types are effectively immutable after creation but aren't annotated Sendable.
+// This allows storing VNCoreMLModel across actors.
+extension VNCoreMLModel: @unchecked @retroactive Sendable {}
+
+actor StickerService {
     private var visionModel: VNCoreMLModel?
     private let context = CIContext() // Re-use context for better performance
 
-    @MainActor
-    init() {
-        let config = MLModelConfiguration()
-
-        #if targetEnvironment(simulator)
-        config.computeUnits = .cpuOnly
-        #else
-        config.computeUnits = .all
-        #endif
-        do {
-            // Ensure 'u2netp' matches your imported .mlmodel file name
-            print("[model] loading u2netp model")
-            let model = try u2netp(configuration: config)
-            print("[model] u2netp model loaded")
-            visionModel = try VNCoreMLModel(for: model.model)
-            print("[model] vision model loaded")
-        } catch {
-            print("[model] model failed to load: \(error)")
-        }
-    }
+    init() {}
 
     /// Generates a sticker by removing the background
     func extractSticker(from inputImage: UIImage) async throws -> UIImage? {
         print("[model]extractSticker start")
+
+        try await loadModelIfNeeded()
 
         guard let visionModel = visionModel,
               let ciImage = CIImage(image: inputImage)
@@ -82,6 +69,25 @@ nonisolated class StickerService {
             } catch {
                 continuation.resume(throwing: error)
             }
+        }
+    }
+
+    private func loadModelIfNeeded() async throws {
+        if visionModel != nil { return }
+
+        let config = MLModelConfiguration()
+
+        #if targetEnvironment(simulator)
+        config.computeUnits = .cpuOnly
+        #else
+        config.computeUnits = .all
+        #endif
+
+        // Ensure 'u2netp' matches your imported .mlmodel file name
+        print("[model] loading u2netp model")
+        visionModel = try await MainActor.run {
+            let model = try u2netp(configuration: config)
+            return try VNCoreMLModel(for: model.model)
         }
     }
 

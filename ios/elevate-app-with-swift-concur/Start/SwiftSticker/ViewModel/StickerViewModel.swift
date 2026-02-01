@@ -21,9 +21,13 @@ class StickerViewModel {
     /// An array of photos that didn't process successfully.
     var invalidPhotos: [SelectedPhoto.ID] = []
 
-    let stickerService = StickerService()
+    let stickerService: StickerService
+    let photoProcessor: PhotoProcessor
 
     init() {
+        let stickerService = StickerService()
+        self.stickerService = stickerService
+        self.photoProcessor = PhotoProcessor(stickerService: stickerService)
         if !cachedSelection.isEmpty {
             self.selection = cachedSelection.map {
                 SelectedPhoto(itemIdentifier: $0)
@@ -37,8 +41,28 @@ class StickerViewModel {
         if let cachedData = getCachedData(for: item.id) { data = cachedData }
 
         guard let data else { return }
-        processedPhotos[item.id] = await PhotoProcessor(stickerService: stickerService).process(data: data)
+        processedPhotos[item.id] = await photoProcessor.process(data: data)
 
         cacheData(item.id, data)
+    }
+
+    func processAllPhotos() async {
+        await withTaskGroup { group in
+            for item in selection {
+                guard processedPhotos[item.id] == nil else { continue }
+                group.addTask {
+                    let data = await self.getData(for: item)
+                    let photo = await PhotoProcessor(stickerService: self.stickerService).process(data: data)
+                    return photo.map { ProcessedPhotoResult(id: item.id, processedPhoto: $0)}
+                }
+            }
+
+            for await result in group {
+                if let result {
+                    processedPhotos[result.id] = result.processedPhoto
+                }
+            }
+
+        }
     }
 }

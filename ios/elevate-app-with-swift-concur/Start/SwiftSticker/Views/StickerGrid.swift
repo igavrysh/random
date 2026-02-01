@@ -23,6 +23,25 @@ struct StickerGrid: View {
                         .padding()
                 }
             }
+            .task {
+                await viewModel.processAllPhotos()
+                finishedLoading = true
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    if finishedLoading {
+                        ShareLink("Share", items: viewModel.selection.compactMap {
+                            viewModel.processedPhotos[$0.id]?.sticker
+                        }) { sticker in
+                            SharePreview(
+                                "Sticker Preview",
+                                image: sticker,
+                                icon: Image(systemName: "photo")
+                            )
+                        }
+                    }
+                }
+            }
             .configureStickerGrid()
         }
     }
