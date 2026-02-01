@@ -10,10 +10,11 @@ import CoreML
 import Vision
 import UIKit
 
-class StickerService {
+nonisolated class StickerService {
     private var visionModel: VNCoreMLModel?
     private let context = CIContext() // Re-use context for better performance
 
+    @MainActor
     init() {
         let config = MLModelConfiguration()
 

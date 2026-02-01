@@ -9,6 +9,7 @@ A sticker view data model for managing imported and processed photos,
 import SwiftUI
 import PhotosUI
 
+@MainActor
 @Observable
 class StickerViewModel {
     /// An array of items for the picker's selected photos.
@@ -19,6 +20,8 @@ class StickerViewModel {
 
     /// An array of photos that didn't process successfully.
     var invalidPhotos: [SelectedPhoto.ID] = []
+
+    let stickerService = StickerService()
 
     init() {
         if !cachedSelection.isEmpty {
@@ -34,7 +37,7 @@ class StickerViewModel {
         if let cachedData = getCachedData(for: item.id) { data = cachedData }
 
         guard let data else { return }
-        processedPhotos[item.id] = await PhotoProcessor().process(data: data)
+        processedPhotos[item.id] = await PhotoProcessor(stickerService: stickerService).process(data: data)
 
         cacheData(item.id, data)
     }

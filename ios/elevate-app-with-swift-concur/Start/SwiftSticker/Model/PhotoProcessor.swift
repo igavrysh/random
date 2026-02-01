@@ -10,12 +10,13 @@ import PhotosUI
 import Vision
 import CoreImage.CIFilterBuiltins
 
-struct PhotoProcessor {
+nonisolated struct PhotoProcessor {
 
     let colorExtractor = ColorExtractor()
 
-    let stickerService = StickerService()
+    var stickerService: StickerService
 
+    @concurrent
     func process(data: Data) async -> ProcessedPhoto? {
         async let sticker = extractSticker(from: data)
         let colors = extractColors(from: data)
