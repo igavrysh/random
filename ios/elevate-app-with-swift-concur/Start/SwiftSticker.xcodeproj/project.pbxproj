@@ -27,6 +27,8 @@
 		69F7034E2DC7F721009D188E /* SwiftStickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7034D2DC7F721009D188E /* SwiftStickerApp.swift */; };
 		ADDD33BE2DC48DA500A2DC2E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = ADDD33BD2DC48DA500A2DC2E /* README.md */; };
 		ADDD34432DC494BC00A2DC2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADDD343F2DC494BC00A2DC2E /* Assets.xcassets */; };
+		D548CE922F2EDBB4001A81B7 /* u2netp.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D548CE912F2EDBB4001A81B7 /* u2netp.mlmodel */; };
+		D548CE942F2EDC11001A81B7 /* StickerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D548CE932F2EDC0D001A81B7 /* StickerService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,8 @@
 		ADDD33BD2DC48DA500A2DC2E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ADDD343F2DC494BC00A2DC2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C115042F92C5584A6EEA8703 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D548CE912F2EDBB4001A81B7 /* u2netp.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = u2netp.mlmodel; sourceTree = "<group>"; };
+		D548CE932F2EDC0D001A81B7 /* StickerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 		69F703312DC7F571009D188E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D548CE912F2EDBB4001A81B7 /* u2netp.mlmodel */,
+				D548CE932F2EDC0D001A81B7 /* StickerService.swift */,
 				69F7032D2DC7F571009D188E /* ColorExtractor.swift */,
 				69F7032E2DC7F571009D188E /* PhotoProcessor.swift */,
 				69F703302DC7F571009D188E /* ProcessedPhoto.swift */,
@@ -239,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69F7033B2DC7F571009D188E /* ColorExtractor.swift in Sources */,
+				D548CE942F2EDC11001A81B7 /* StickerService.swift in Sources */,
 				69F7033C2DC7F571009D188E /* StickerViewModel+Utilities.swift in Sources */,
 				69F7033D2DC7F571009D188E /* Sticker.swift in Sources */,
 				69F7033E2DC7F571009D188E /* SelectedPhoto.swift in Sources */,
@@ -246,6 +253,7 @@
 				69F703402DC7F571009D188E /* GradientSticker.swift in Sources */,
 				69F703412DC7F571009D188E /* PhotoProcessor.swift in Sources */,
 				69F7034E2DC7F721009D188E /* SwiftStickerApp.swift in Sources */,
+				D548CE922F2EDBB4001A81B7 /* u2netp.mlmodel in Sources */,
 				238F46922DD0101A00BAAB96 /* ConfigureCarousel.swift in Sources */,
 				69F703422DC7F571009D188E /* StickerPlaceholder.swift in Sources */,
 				69F703432DC7F571009D188E /* StickerGrid.swift in Sources */,

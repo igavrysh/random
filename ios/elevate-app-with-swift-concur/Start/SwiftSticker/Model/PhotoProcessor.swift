@@ -14,6 +14,8 @@ struct PhotoProcessor {
 
     let colorExtractor = ColorExtractor()
 
+    let stickerService = StickerService()
+
     func process(data: Data) -> ProcessedPhoto? {
         let sticker = extractSticker(from: data)
         let colors = extractColors(from: data)
@@ -28,8 +30,53 @@ struct PhotoProcessor {
     }
 
     private func extractSticker(from data: Data) -> Image? {
-        guard let image = CIImage(data: data) else { return nil }
+        guard let userSelectedImage = UIImage(data: data) else { return nil }
 
+#if targetEnvironment(simulator)
+
+        // Use a class that is definitely Sendable and not isolated
+        final class ResultBox: @unchecked Sendable {
+            private(set) var image: UIImage?
+            private(set) var finished = false
+
+            // Moving the mutation to a function bypasses the isolation check
+            func store(_ result: UIImage?) {
+                self.image = result
+                self.finished = true
+            }
+        }
+
+        let box = ResultBox()
+        let service = self.stickerService // Capture local reference
+
+        Task.detached(priority: .userInitiated) {
+            do {
+                print("calling service.extractSticker")
+                // Call the async service
+                let extracted = try await service.extractSticker(from: userSelectedImage)
+
+                // This is the line that was throwing the error.
+                // Because ResultBox is @unchecked Sendable, this is now legal.
+                await box.store(extracted)
+            } catch {
+                print("Extraction Error: \(error)")
+                await box.store(nil)
+            }
+        }
+
+        Thread.sleep(forTimeInterval: 1)
+
+
+        // BLOCKING LOOP: Force the thread to wait but keep RunLoop spinning
+        // This allows the M1 Simulator to handle internal Vision/CoreML events
+        while !box.finished {
+            RunLoop.current.run(mode: .default, before: Date(timeIntervalSinceNow: 1))
+            print("still running")
+        }
+
+        return box.image.map(Image.init)
+#else
+        guard let image = CIImage(data: data) else { return nil }
         let handler = VNImageRequestHandler(ciImage: image)
         let request = VNGenerateForegroundInstanceMaskRequest()
 
@@ -75,5 +122,30 @@ struct PhotoProcessor {
             print("Unable to extract foreground: \(error)")
             return nil
         }
+#endif
+
+    }
+
+    func applyMockMask(to inputImage: CIImage) -> CIImage {
+        // 1. Create a circular mask in the center
+        let center = CGPoint(x: inputImage.extent.midX, y: inputImage.extent.midY)
+        let radius = min(inputImage.extent.width, inputImage.extent.height) * 0.4
+
+        // 2. Use a radial gradient to create a white circle on a black background
+        let mask = CIFilter(name: "CIRadialGradient", parameters: [
+            "inputCenter": CIVector(cgPoint: center),
+            "inputRadius0": radius,
+            "inputRadius1": radius + 1,
+            "inputColor0": CIColor.white,
+            "inputColor1": CIColor.clear
+        ])?.outputImage?.cropped(to: inputImage.extent)
+
+        // 3. Blend the original image with the mask
+        let blendFilter = CIFilter(name: "CIBlendWithMask", parameters: [
+            "inputImage": inputImage,
+            "inputMaskImage": mask!
+        ])
+
+        return blendFilter?.outputImage ?? inputImage
     }
 }
