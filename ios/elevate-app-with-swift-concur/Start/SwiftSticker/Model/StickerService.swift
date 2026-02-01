@@ -74,13 +74,12 @@ class StickerService {
 
             let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
 
-            // Perform the request on a background thread
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    try handler.perform([request])
-                } catch {
-                    continuation.resume(throwing: error)
-                }
+            // Perform on main queue so the main RunLoop can service Vision/CoreML callbacks
+            // (required for simulator; background GCD threads have no RunLoop)
+            do {
+                try handler.perform([request])
+            } catch {
+                continuation.resume(throwing: error)
             }
         }
     }

@@ -34,7 +34,7 @@ class StickerViewModel {
         if let cachedData = getCachedData(for: item.id) { data = cachedData }
 
         guard let data else { return }
-        processedPhotos[item.id] = PhotoProcessor().process(data: data)
+        processedPhotos[item.id] = await PhotoProcessor().process(data: data)
 
         cacheData(item.id, data)
     }
