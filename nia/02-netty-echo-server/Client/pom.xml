@@ -11,13 +11,7 @@
 
     <artifactId>echo-client</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.6.3</version>
-        </dependency>
-    </dependencies>
+    <name>chapter 2 echo client</name>
 
     <build>
         <plugins>
@@ -33,7 +27,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>nia.echo.EchoClient</mainClass>
+                    <mainClass>nia.chapter2.echoclient.EchoClient</mainClass>
                     <arguments>${echo-server.hostname}</arguments>
                     <arguments>${echo-server.port}</arguments>
                 </configuration>

@@ -1,15 +1,12 @@
 package nia.chapter2.echoserver;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
-
 public class EchoServer {
     private final int port;
-
     public EchoServer(int port) {
         this.port = port;
     }
