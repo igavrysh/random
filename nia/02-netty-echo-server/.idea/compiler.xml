@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+      </profile>
+      <profile name="Annotation profile for 2. Echo Client and Server" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="echo-server" />
+        <module name="echo-client" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Client" target="1.5" />
+      <module name="echo-server (1)" target="1.5" />
+      <module name="echo-server (2)" target="1.5" />
+      <module name="my-app" target="17" />
+      <module name="nia-samples-parent" target="1.5" />
+      <module name="Server" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
