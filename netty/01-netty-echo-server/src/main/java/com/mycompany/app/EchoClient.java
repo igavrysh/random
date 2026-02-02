@@ -35,12 +35,12 @@ public class EchoClient {
                             ch.pipeline().addLast(new EchoClientHandler());
                         }
                     });
-            // connects to the remote peer; waits until the connect completes
+            // connects to the remote peer; waits until connect completes
             ChannelFuture f = b.connect().sync();
             // blocks until the channel closes
             f.channel().closeFuture().sync();
         } finally {
-            // shuts down the thread pools and the release of all resouces
+            // shuts down the thread pools and the release of all resources
             group.shutdownGracefully().sync();
         }
     }
