@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>nia</groupId>
-        <artifactId>02-netty-echo-server</artifactId>
+        <artifactId>ch02</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
@@ -28,11 +28,12 @@
                 </executions>
                 <configuration>
                     <mainClass>nia.chapter2.echoclient.EchoClient</mainClass>
-                    <arguments>${echo-server.hostname}</arguments>
-                    <arguments>${echo-server.port}</arguments>
+                    <arguments>
+                        <argument>${echo-server.hostname}</argument>
+                        <argument>${echo-server.port}</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

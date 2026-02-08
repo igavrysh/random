@@ -6,9 +6,9 @@
     <artifactId>nia-samples-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>nia sample code</name>
+    <name>NIA Sample Code</name>
     <modules>
-        <module>02-netty-echo-server</module>
+        <module>ch02</module>
     </modules>
     <properties>
         <junit.version>4.13.2</junit.version>

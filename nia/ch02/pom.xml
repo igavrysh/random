@@ -10,7 +10,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>02-netty-echo-server</artifactId>
+  <artifactId>ch02</artifactId>
   <packaging>pom</packaging>
   <name>02 echo client and server</name>
   <description>

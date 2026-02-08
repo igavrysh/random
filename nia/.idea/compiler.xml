@@ -10,5 +10,8 @@
         <module name="echo-client" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ch02" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -20,8 +20,14 @@ echo "hello ievgen" | nc 127.0.0.1 9090
 ```
 
 
+to run server + client from ch2
 
-'''
+from root project
+```
+mvn clean package
+```
 
-
-'''
+from ch02/Server folder + the same from ch02/Client folder
+```
+mvn exec:java
+```
