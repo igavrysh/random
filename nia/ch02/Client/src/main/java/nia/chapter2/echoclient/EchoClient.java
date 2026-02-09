@@ -37,7 +37,9 @@ public class EchoClient {
             // connects to the remote peer; waits until connect completes
             ChannelFuture f = b.connect().sync();
             // blocks until the channel closes
+            System.out.println("waiting until client channel is closed");
             f.channel().closeFuture().sync();
+            System.out.println("closed channel");
         } finally {
             // shuts down the thread pools and the release of all resources
             group.shutdownGracefully().sync();
