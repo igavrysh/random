@@ -13,14 +13,13 @@ struct ContentView: View {
         repeating: GridItem(.flexible(minimum: 250, maximum: 450), spacing: 16),
         count: 1)
 
-
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 0) {
-
                 ForEach(ids, id: \.self) { id in
                     RotatingCard(id: id)
                         .frame(height: 250)
+
                 }
             }
         }
@@ -30,43 +29,32 @@ struct ContentView: View {
 struct RotatingCard: View {
     let id: Int
     @State var showFront: Bool = true
-    @State var rotateFromFront: Bool = false
+
+    @State private var degrees: Double = 0
 
     var body: some View {
-        let binding = Binding<Bool>(
-            get: { self.showFront },
-            set: { self.showFront = $0 }
-        )
-
         ZStack {
             if showFront {
-                Front(id: id, onTap: {
-                    withAnimation(.easeInOut(duration: 1.0)) {
-                        self.rotateFromFront = true
-                    }
-                })
+                Front(id: id)
             } else {
-                Back(id: id, onTap: {
-                    withAnimation(.easeInOut(duration: 1.0)) {
-                        self.rotateFromFront = false
-                    }
-                })
+                Back(id: id)
+                    .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)) // Un-flip the text
             }
         }
-//        .modifier(
-//            RotateEffect(
-//                flipped: binding,
-//                angle: 180,// rotateFromFront ? 180 : 0,
-//                axis: (x: 1, y: 5)
-//            )
-//        )
+        .zIndex(degrees > 0 && degrees < 180 ? 100 : 0)
+        .modifier(RotateEffect(angle: degrees, showFront: $showFront))
+        .onTapGesture {
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                // Toggles back and forth
+                degrees = (degrees == 0) ? 180 : 0
+            }
+        }
     }
 }
 
 struct Front: View {
     let id: Int
     var onTap: (() -> Void)? = nil
-
     var body: some View {
         ZStack {
             Color.gray
@@ -103,7 +91,7 @@ struct Back: View {
 
     var body: some View {
         ZStack {
-            Color.white
+            Color.red
             VStack(spacing: 8) {
                 Text("Back for \(id)")
                 Image("amethyst")
@@ -112,37 +100,47 @@ struct Back: View {
                     .frame(width: 30, height: 30)
             }
         }
+        .cornerRadius(20)       // Clips the background to rounded corners
+        .overlay(
+            RoundedRectangle(cornerRadius: 20) // Use a shape matching the corners
+                .stroke(Color.green, lineWidth: 4) // Apply stroke to the shape
+        )
     }
 }
 
 struct RotateEffect: GeometryEffect {
+    var angle: Double
+
     var animatableData: Double {
         get { angle }
         set { angle = newValue }
     }
 
-    @Binding var flipped: Bool
-    var angle: Double
-    let axis: (x: CGFloat, y: CGFloat)
+    @Binding var showFront: Bool // Pass the state back up
 
     func effectValue(size: CGSize) -> ProjectionTransform {
-        print("angle: \(angle) flipped: \(flipped)")
+        print("angle: \(angle)")
+        //DispatchQueue.main.async {
+        //    self.front = self.angle >= 90 && self.angle < 180
+       // }
+
+        let isFront = angle < 90
+
         DispatchQueue.main.async {
-            self.flipped = self.angle >= 90 && self.angle < 180
+            if self.showFront != isFront {
+                self.showFront = isFront
+            }
         }
 
-        let a = CGFloat(Angle(degrees: angle).radians)
-
+        let radians = CGFloat(Angle(degrees: angle).radians)
         var transform3d = CATransform3DIdentity
-        //transform3d.m34 = -1 / max(size.width, size.height)
-
-        //transform3d = CATransform3DRotate(transform3d, a, axis.x, axis.y, 0)
-        transform3d = CATransform3DRotate(transform3d, a, 0, axis.y, 0)
-        transform3d = CATransform3DTranslate(transform3d, -size.width/2.0, -size.height/2.0, 0)
-
-        let affineTransform = ProjectionTransform(CGAffineTransform(translationX: size.width/2.0, y: size.height/2.0))
-
-        return ProjectionTransform(transform3d).concatenating(affineTransform)
+        // -1.0 / 500.0 is a standard "natural" perspective.
+        transform3d.m34 = -1.0 / 500.0
+        let translation = CATransform3DMakeTranslation(size.width/2, size.height/2, 0)
+        let rotation = CATransform3DRotate(transform3d, radians, 0, 1, 0) // Y-axis rotation
+        let reversal = CATransform3DMakeTranslation(-size.width/2, -size.height/2, 0)
+        let finalTransform = CATransform3DConcat(reversal, CATransform3DConcat(rotation, translation))
+        return ProjectionTransform(finalTransform)
     }
 }
 
