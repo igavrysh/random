@@ -13,13 +13,15 @@ struct ContentView: View {
         repeating: GridItem(.flexible(minimum: 250, maximum: 450), spacing: 16),
         count: 1)
 
+    @State private var activeCardId: Int = 1
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 0) {
                 ForEach(ids, id: \.self) { id in
-                    RotatingCard(id: id)
+                    RotatingCard(id: id, activeCardId: $activeCardId)
                         .frame(height: 250)
-
+                        .zIndex(activeCardId == id ? 1.0 : 0.0)
                 }
             }
         }
@@ -28,8 +30,9 @@ struct ContentView: View {
 
 struct RotatingCard: View {
     let id: Int
-    @State var showFront: Bool = true
+    @Binding var activeCardId: Int
 
+    @State var showFront: Bool = true
     @State private var degrees: Double = 0
 
     var body: some View {
@@ -41,9 +44,12 @@ struct RotatingCard: View {
                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)) // Un-flip the text
             }
         }
-        .zIndex(degrees > 0 && degrees < 180 ? 100 : 0)
+
         .modifier(RotateEffect(angle: degrees, showFront: $showFront))
+
         .onTapGesture {
+            activeCardId = id
+            print("active card: \(activeCardId)")
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                 // Toggles back and forth
                 degrees = (degrees == 0) ? 180 : 0
@@ -80,6 +86,8 @@ struct Front: View {
         .cornerRadius(20)       // Clips the background to rounded corners
         .overlay(
             RoundedRectangle(cornerRadius: 20) // Use a shape matching the corners
+                .inset(by: 2)
+
                 .stroke(Color.blue, lineWidth: 4) // Apply stroke to the shape
         )
     }
@@ -103,6 +111,7 @@ struct Back: View {
         .cornerRadius(20)       // Clips the background to rounded corners
         .overlay(
             RoundedRectangle(cornerRadius: 20) // Use a shape matching the corners
+                .inset(by: 2)
                 .stroke(Color.green, lineWidth: 4) // Apply stroke to the shape
         )
     }
