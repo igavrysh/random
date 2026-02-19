@@ -12,15 +12,51 @@ struct ContentView: View {
     let columns = Array(
         repeating: GridItem(.flexible(minimum: 250, maximum: 450), spacing: 16),
         count: 1)
+    @State private var activeCardId: Int? = nil
+    @Namespace private var animation // For smooth transitions
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, spacing: 0) {
-                ForEach(ids, id: \.self) { id in
-                    RotatingCard(id: id)
-                        .frame(height: 250)
+        ZStack {
 
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach(ids, id: \.self) { id in
+
+//                        RotatingCard(id: id, activeCardID: $activeCardId, namespace: animation)
+//                            .frame(height: 250)
+//                            .zIndex(10)
+//
+//
+//                            .matchedGeometryEffect(id: id, in: animation, anchor: .top, isSource: true)
+//
+
+
+                        Color
+                            .clear
+                            .frame(height: 250)
+                            .matchedGeometryEffect(id: id, in: animation, anchor: .top, isSource: true)
+                            .onTapGesture {
+                                print("update \(id) tapped")
+                                activeCardId = id
+                            }
+
+
+//
+//                        if activeCardId == id {
+//
+//                        } else {
+//
+//                        }
+                    }
                 }
+
+            }
+            ForEach(ids, id: \.self) { id in
+                RotatingCard(id: id, activeCardID: $activeCardId, namespace: animation)
+                    .frame(height: 250)
+                    .matchedGeometryEffect(id: id, in: animation, properties: .position, anchor: .top, isSource: false)  // Flies from grid to here
+                    .zIndex(id == activeCardId ? 100 : 0)
+                    .allowsHitTesting(false) // Let touches pass through the empty space
             }
         }
     }
@@ -28,8 +64,11 @@ struct ContentView: View {
 
 struct RotatingCard: View {
     let id: Int
-    @State var showFront: Bool = true
 
+    @Binding var activeCardID: Int?
+    var namespace: Namespace.ID
+
+    @State var showFront: Bool = true
     @State private var degrees: Double = 0
 
     var body: some View {
@@ -41,14 +80,23 @@ struct RotatingCard: View {
                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)) // Un-flip the text
             }
         }
-        .zIndex(degrees > 0 && degrees < 180 ? 100 : 0)
         .modifier(RotateEffect(angle: degrees, showFront: $showFront))
-        .onTapGesture {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                // Toggles back and forth
-                degrees = (degrees == 0) ? 180 : 0
+        .onChange(of: activeCardID) { newValue in
+            if id == activeCardID {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    //activeCardID = id
+                    // Toggles back and forth
+                    degrees = (degrees == 0) ? 180 : 0
+                }
             }
         }
+//        .onTapGesture {
+//            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+//                activeCardID = id
+//                // Toggles back and forth
+//                degrees = (degrees == 0) ? 180 : 0
+//            }
+//        }
     }
 }
 
