@@ -17,7 +17,8 @@ struct ContentView: View {
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, spacing: 0) {
+            //LazyVGrid(columns: columns, spacing: 0) {
+            VStack(spacing: 0) {
                 ForEach(ids, id: \.self) { id in
                     RotatingCard(id: id, activeCardId: $activeCardId)
                         .frame(height: 250)
