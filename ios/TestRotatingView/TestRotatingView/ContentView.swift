@@ -17,11 +17,13 @@ struct ContentView: View {
 
     var body: some View {
         ScrollView {
-            //LazyVGrid(columns: columns, spacing: 0) {
-            VStack(spacing: 0) {
+            LazyVGrid(columns: columns, spacing: 0) {
+            // VStack(spacing: 0) {
                 ForEach(ids, id: \.self) { id in
                     RotatingCard(id: id, activeCardId: $activeCardId)
                         .frame(height: 250)
+                        // zIndex only works for non-lazy container, e.g. VStack, HStack
+
                         .zIndex(activeCardId == id ? 1.0 : 0.0)
                 }
             }
@@ -46,8 +48,10 @@ struct RotatingCard: View {
             }
         }
 
-        .modifier(RotateEffect(pct: pct, showFront: $showFront))
+        .morphingCorners(pct: pct)
+        //.morphingStroke(pct: pct, color: showFront ? .blue : .green)
 
+        .modifier(RotateEffect(pct: pct, showFront: $showFront))
         .onTapGesture {
             activeCardId = id
             print("active card: \(activeCardId)")
@@ -63,8 +67,7 @@ struct Front: View {
     let id: Int
     var onTap: (() -> Void)? = nil
     var body: some View {
-
-        ZStack {
+        return ZStack {
             Color.gray
 
             VStack(spacing: 8) {
@@ -85,17 +88,18 @@ struct Front: View {
                 }
             }
         }
-        .cornerRadius(0)       // Clips the background to rounded corners
-        .overlay(
-            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
-                .inset(by: 2)
-                .stroke(Color.blue, lineWidth: 4) // Apply stroke to the shape
-        )
+//        .cornerRadius(0)       // Clips the background to rounded corners
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
+//                .inset(by: 2)
+//                .stroke(Color.blue, lineWidth: 4) // Apply stroke to the shape
+//        )
     }
 }
 
 struct Back: View {
     var id: Int
+
     var onTap: (() -> Void)? = nil
 
     var body: some View {
@@ -109,12 +113,12 @@ struct Back: View {
                     .frame(width: 30, height: 30)
             }
         }
-        .cornerRadius(0)       // Clips the background to rounded corners
-        .overlay(
-            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
-                .inset(by: 2)
-                .stroke(Color.green, lineWidth: 4) // Apply stroke to the shape
-        )
+//        .cornerRadius(0)       // Clips the background to rounded corners
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
+//                .inset(by: 2)
+//                .stroke(Color.green, lineWidth: 4) // Apply stroke to the shape
+//        )
     }
 }
 
@@ -142,7 +146,7 @@ struct RotateEffect: GeometryEffect {
         print("angle: \(angle)")
         //DispatchQueue.main.async {
         //    self.front = self.angle >= 90 && self.angle < 180
-       // }
+        // }
 
         let isFront = angle < 90
 
@@ -180,6 +184,66 @@ struct RotateEffect: GeometryEffect {
     }
 }
 
+func radius(for percent: Double) -> Double {
+    let maxRadius: Double = 20
+    if percent < 0.25 {
+        return 20 * percent / 0.25
+    } else if percent < 0.75 {
+        return maxRadius
+    } else {
+        return 20 * (1-percent) / 0.25
+    }
+}
+
+struct MorphingCornerModifier: AnimatableModifier {
+    var pct: Double
+
+    var animatableData: Double {
+        get { pct }
+        set { pct = newValue }
+    }
+
+    func body(content: Content) -> some View {
+        return content
+            .clipShape(RoundedRectangle(cornerRadius: radius(for: pct), style: .continuous))
+    }
+}
+
+// Extension for cleaner usage
+extension View {
+    func morphingCorners(pct: Double) -> some View {
+        self.modifier(MorphingCornerModifier(pct: pct))
+    }
+}
+
+struct MorphingStrokeModifier: AnimatableModifier {
+    var pct: Double
+    var strokeColor: Color = .green
+    var lineWidth: CGFloat = 4
+
+    var animatableData: Double {
+        get { pct }
+        set { pct = newValue }
+    }
+
+    func body(content: Content) -> some View {
+        return content
+            .overlay(
+                RoundedRectangle(cornerRadius: radius(for: pct), style: .continuous)
+                    .inset(by: lineWidth / 2) // Inset by half the line width to stay inside bounds
+                    .stroke(strokeColor, lineWidth: lineWidth)
+            )
+    }
+}
+
+// Extension for easy access
+extension View {
+    func morphingStroke(pct: Double, color: Color = .green) -> some View {
+        self.modifier(MorphingStrokeModifier(pct: pct, strokeColor: color))
+    }
+}
+
 #Preview {
     ContentView()
 }
+
