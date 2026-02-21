@@ -63,6 +63,7 @@ struct Front: View {
     let id: Int
     var onTap: (() -> Void)? = nil
     var body: some View {
+
         ZStack {
             Color.gray
 
@@ -84,11 +85,10 @@ struct Front: View {
                 }
             }
         }
-        .cornerRadius(20)       // Clips the background to rounded corners
+        .cornerRadius(0)       // Clips the background to rounded corners
         .overlay(
-            RoundedRectangle(cornerRadius: 20) // Use a shape matching the corners
+            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
                 .inset(by: 2)
-
                 .stroke(Color.blue, lineWidth: 4) // Apply stroke to the shape
         )
     }
@@ -109,9 +109,9 @@ struct Back: View {
                     .frame(width: 30, height: 30)
             }
         }
-        .cornerRadius(20)       // Clips the background to rounded corners
+        .cornerRadius(0)       // Clips the background to rounded corners
         .overlay(
-            RoundedRectangle(cornerRadius: 20) // Use a shape matching the corners
+            RoundedRectangle(cornerRadius: 0) // Use a shape matching the corners
                 .inset(by: 2)
                 .stroke(Color.green, lineWidth: 4) // Apply stroke to the shape
         )
