@@ -5,4 +5,5 @@ class Lexer:
         pass
 
     def tokenize(self):
-        # TODO: add tokens to the list as we scan 
+        # TODO: add tokens to the list as we scan
+        pass
