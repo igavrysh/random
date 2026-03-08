@@ -17,6 +17,8 @@ class Lexer:
         return self.source[self.curr]
     
     def lookahead(self, n=1):
+        if self.curr >= len(self.source):
+            return '\0'
         return self.source[self.curr + n]
     
     def match(self, expected):
@@ -39,7 +41,7 @@ class Lexer:
             elif ch == '\t': pass
             elif ch == '\r': pass
             elif ch == '#':
-                while self.peek() != '\n':
+                while self.peek() != '\n' and not(self.curr >= len(self.source)):
                     self.advance()
             elif ch == '(': self.add_token(TOK_LPAREN)
             elif ch == ')': self.add_token(TOK_RPAREN)
@@ -57,4 +59,18 @@ class Lexer:
             elif ch == ';': self.add_token(TOK_SEMICOLON)
             elif ch == '?': self.add_token(TOK_QUESTION)
             elif ch == '%': self.add_token(TOK_MOD)
+            elif ch == '=':
+                if self.match('='):
+                    self.add_token(TOK_EQ)
+            elif ch == '~':
+                self.add_token(TOK_NE if self.match('=') else TOK_NOT)
+            elif ch == '<':
+                self.add_token(TOK_LE if self.match == '=' else TOK_LT)
+            elif ch == '>':
+                self.add_token(TOK_GE if self.match == '=' else TOK_GT)
+            elif ch == ':':
+                self.add_token(TOK_EQ if self.match == '=' else TOK_COLON)
+            # TODO: Check if its a digit, hten perform the logic of reading either ints or floats
+            # TODO: Check if its ' then perfrom the logic of reading a string token
+            # TODO: Check if its an alpha character (a letter) or _, then we must handle and identifier
         return self.tokens
