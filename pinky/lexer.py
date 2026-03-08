@@ -51,10 +51,8 @@ class Lexer:
         self.add_token(TOK_STRING)
     
     def handle_identifier(self):
-        ch = self.peek()
-        while ch.isalnum() or ch == '_':
+        while self.peek().isalnum() or self.peek() == '_':
             self.advance()
-            ch = self.peek()
         self.add_token(TOK_IDENTIFIER)
 
     def add_token(self, token_type):
@@ -93,11 +91,11 @@ class Lexer:
             elif ch == '~':
                 self.add_token(TOK_NE if self.match('=') else TOK_NOT)
             elif ch == '<':
-                self.add_token(TOK_LE if self.match == '=' else TOK_LT)
+                self.add_token(TOK_LE if self.match('=') else TOK_LT)
             elif ch == '>':
-                self.add_token(TOK_GE if self.match == '=' else TOK_GT)
+                self.add_token(TOK_GE if self.match('=') else TOK_GT)
             elif ch == ':':
-                self.add_token(TOK_EQ if self.match == '=' else TOK_COLON)
+                self.add_token(TOK_ASSIGN if self.match('=') else TOK_COLON)
             # Check if its a digit, then perform the logic of reading either ints or floats
             elif ch.isdigit():
                 self.handle_number()

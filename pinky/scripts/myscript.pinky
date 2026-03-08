@@ -1,10 +1,10 @@
 # Evaluate a simple expression
-2 + 3 - 3 * 3 / 2
-****; ;*
-:= < >= <= == ~= ~ ;
-245 + 4 * 3.4 - 12.23
-" hello_worklsdfa ER1" 'AA'
-'ABC '
-my_var
-_123
-myVariable And camelCaseVar and CONSTANT_HI
+pi := 3.141592
+
+x := 8.23
+
+if x >= 0 then
+    println('x is positive')
+else
+    println('x is negative')
+end
