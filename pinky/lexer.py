@@ -46,7 +46,7 @@ class Lexer:
         while self.peek() != start_quote and not(self.curr >= len(self.source)):
             self.advance()
         if self.curr >= len(self.source):
-            raise SyntaxError('[Line] {self.line}] Unterminated string.')
+            raise SyntaxError(f'[Line {self.line}] Unterminated string.')
         self.advance()  # Consume the ending quote
         self.add_token(TOK_STRING)
     
