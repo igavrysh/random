@@ -1,6 +1,7 @@
-# Evaluate a simple expression
+-- Evaluate a simple expression x := 8.23
 pi := 3.141592
-
+-- Guess what?
+t := 41 + 1
 x := 8.23
 
 if x >= 0 then
