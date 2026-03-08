@@ -5,3 +5,6 @@
 245 + 4 * 3.4 - 12.23
 " hello_worklsdfa ER1" 'AA'
 'ABC '
+my_var
+_123
+myVariable And camelCaseVar and CONSTANT_HI

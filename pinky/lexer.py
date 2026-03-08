@@ -42,11 +42,20 @@ class Lexer:
         else:
             self.add_token(TOK_INTEGER)
 
-    def handle_string(self, quote_type):
-        while self.peek() != quote_type:
+    def handle_string(self, start_quote):
+        while self.peek() != start_quote and not(self.curr >= len(self.source)):
             self.advance()
+        if self.curr >= len(self.source):
+            raise SyntaxError('[Line] {self.line}] Unterminated string.')
+        self.advance()  # Consume the ending quote
         self.add_token(TOK_STRING)
-        self.advance()
+    
+    def handle_identifier(self):
+        ch = self.peek()
+        while ch.isalnum() or ch == '_':
+            self.advance()
+            ch = self.peek()
+        self.add_token(TOK_IDENTIFIER)
 
     def add_token(self, token_type):
         self.tokens.append(Token(token_type, self.source[self.start:self.curr], self.line))
@@ -92,10 +101,11 @@ class Lexer:
             # Check if its a digit, then perform the logic of reading either ints or floats
             elif ch.isdigit():
                 self.handle_number()
-            # TODO: Check if its ' then perfrom the logic of reading a string token
+            # Check if its ' then perfrom the logic of reading a string token
             # handle_string() -> "something" or 'something'
             elif ch == '\'' or ch == '"':
                 self.handle_string(ch)
-
-            # TODO: Check if its an alpha character (a letter) or _, then we must handle and identifier
+            # Check if its an alpha character (a letter) or _, then we must handle and identifier
+            elif ch.isalpha() or ch == '_':
+                self.handle_identifier()
         return self.tokens
