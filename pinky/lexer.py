@@ -1,4 +1,5 @@
 from tokens import *
+
 class Lexer:
     def __init__(self, source):
         self.source = source
@@ -27,7 +28,7 @@ class Lexer:
         return True
 
     def add_token(self, token_type):
-        self.tokens.append(Token(token_type, self.source[self.start:self.curr]))
+        self.tokens.append(Token(token_type, self.source[self.start:self.curr], self.line))
 
     def tokenize(self):
         while self.curr < len(self.source):

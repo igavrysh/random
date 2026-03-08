@@ -52,12 +52,13 @@ TOK_PRINTLN     = 'TOK_PRINTLN'
 TOK_CARET       = 'TOK_RET'
 
 ####################################
-# Token type definition
+# Token class definition
 ####################################
 class Token:
-    def __init__(self, token_type, lexeme):
+    def __init__(self, token_type, lexeme, line):
         self.token_type = token_type
         self.lexeme = lexeme
+        self.line = line
 
     def __repr__(self):
-        return f'({self.token_type}, {self.lexeme!r})'
+        return f'({self.token_type}, {self.lexeme!r}, {self.line})'
