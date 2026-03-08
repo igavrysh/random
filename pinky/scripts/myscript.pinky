@@ -1,9 +1,7 @@
 # Evaluate a simple expression
 2 + 3 - 3 * 3 / 2
-
-****-; ;*
-********
------
-;;;;;; ; ; ; ;
-
+****; ;*
 := < >= <= == ~= ~ ;
+245 + 4 * 3.4 - 12.23
+" hello_worklsdfa ER1" 'AA'
+'ABC '

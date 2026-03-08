@@ -14,6 +14,8 @@ class Lexer:
         return ch
     
     def peek(self):
+        if self.curr >= len(self.source):
+            return '\0'
         return self.source[self.curr]
     
     def lookahead(self, n=1):
@@ -28,6 +30,23 @@ class Lexer:
             return False
         self.curr = self.curr + 1 # If its a match, we also consume that char
         return True
+    
+    def handle_number(self):
+        while self.peek().isdigit():
+            self.advance()
+        if self.peek() == '.' and self.lookahead().isdigit():
+            self.advance() # consume the '.'
+            while self.peek().isdigit():
+                self.advance()
+            self.add_token(TOK_FLOAT)
+        else:
+            self.add_token(TOK_INTEGER)
+
+    def handle_string(self, quote_type):
+        while self.peek() != quote_type:
+            self.advance()
+        self.add_token(TOK_STRING)
+        self.advance()
 
     def add_token(self, token_type):
         self.tokens.append(Token(token_type, self.source[self.start:self.curr], self.line))
@@ -70,7 +89,13 @@ class Lexer:
                 self.add_token(TOK_GE if self.match == '=' else TOK_GT)
             elif ch == ':':
                 self.add_token(TOK_EQ if self.match == '=' else TOK_COLON)
-            # TODO: Check if its a digit, hten perform the logic of reading either ints or floats
+            # Check if its a digit, then perform the logic of reading either ints or floats
+            elif ch.isdigit():
+                self.handle_number()
             # TODO: Check if its ' then perfrom the logic of reading a string token
+            # handle_string() -> "something" or 'something'
+            elif ch == '\'' or ch == '"':
+                self.handle_string(ch)
+
             # TODO: Check if its an alpha character (a letter) or _, then we must handle and identifier
         return self.tokens
