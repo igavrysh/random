@@ -43,13 +43,38 @@ TOK_TRUE        = 'TOK_TRUE'
 TOK_FALSE       = 'TOK_FALSE'
 TOK_AND         = 'TOK_AND'
 TOK_OR          = 'TOK_OR'
+TOK_WHILE       = 'TOK_WHILE'
+TOK_DO          = 'TOK_DO'
 TOK_FOR         = 'TOK_FOR'
 TOK_FUNC        = 'TOK_FUNC'
 TOK_NULL        = 'TOK_NULL'
 TOK_END         = 'TOK_END'
 TOK_PRINT       = 'TOK_PRINT'
 TOK_PRINTLN     = 'TOK_PRINTLN'
-TOK_CARET       = 'TOK_RET'
+TOK_RET         = 'TOK_RET'
+
+####################################
+# Dictionary mapping keywords and 
+# their token types
+####################################
+keywords = {
+    'if'        : TOK_IF,
+    'else'      : TOK_ELSE,
+    'then'      : TOK_THEN,
+    'true'      : TOK_TRUE,
+    'false'     : TOK_FALSE,
+    'and'       : TOK_AND,
+    'or'        : TOK_OR,
+    'while'     : TOK_WHILE,
+    'do'        : TOK_DO,
+    'for'       : TOK_FOR,
+    'func'      : TOK_FUNC,
+    'null'      : TOK_NULL,
+    'end'       : TOK_END,
+    'print'     : TOK_PRINT,
+    'println'   : TOK_PRINTLN,
+    'ret'       : TOK_RET  
+}
 
 ####################################
 # Token class definition
