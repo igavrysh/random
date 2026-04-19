@@ -2,7 +2,7 @@
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-public class Solution_480 {
+public class lc0480 {
     private void rebalance(TreeMap<Integer, Integer> top, TreeMap<Integer, Integer> bottom, int k, int[] sizes) {
         if (top.size() > 0 && bottom.size()>0) {
             if (top.firstKey() < bottom.lastKey()) {
@@ -92,7 +92,7 @@ public class Solution_480 {
     }
 
     public static void test2() {
-        Solution_480 sol = new Solution_480();
+        lc0480 sol = new lc0480();
         int[] nums = {2147483647,2147483647};
         int k = 2;
         double[] expectedOutput = {2147483647};
@@ -110,7 +110,7 @@ public class Solution_480 {
     }
 
     public static void test1() {
-        Solution_480 sol = new Solution_480();
+        lc0480 sol = new lc0480();
         int[] nums = {1,3,-1,-3,5,3,6,7};
         int k = 3;
         double[] expectedOutput = {1.00000,-1.00000,-1.00000,3.00000,5.00000,6.00000};

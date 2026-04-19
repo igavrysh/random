@@ -1,7 +1,8 @@
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-class leetcode2288 {
+
+class lc2288 {
     public static class Repl {
         public int start_idx;
         public int end_idx;
@@ -77,7 +78,7 @@ class leetcode2288 {
         Double d2 = Double.parseDouble("2f"); // returns 2.0
 
         int discount = 50;
-        leetcode2288 sol = new leetcode2288();
+        lc2288 sol = new lc2288();
         String output = sol.discountPrices(sen, discount);
         String exp_output = "$2f";
         boolean passed = output.equals(exp_output);
@@ -87,7 +88,7 @@ class leetcode2288 {
     public static void test2() {
         String sen = "ka3caz4837h6ada4 r1 $602";
         int discount = 9;
-        leetcode2288 sol = new leetcode2288();
+        lc2288 sol = new lc2288();
         String output = sol.discountPrices(sen, discount);
         String exp_output = "ka3caz4837h6ada4 r1 $547.82";
         boolean passed = output.equals(exp_output);
@@ -97,7 +98,7 @@ class leetcode2288 {
     public static void test1() {
         String sen = "there are $1 $2 and 5$ candies in the shop";
         int discount = 50;
-        leetcode2288 sol = new leetcode2288();
+        lc2288 sol = new lc2288();
         String output = sol.discountPrices(sen, discount);
         String exp_output = "there are $0.50 $1.00 and 5$ candies in the shop";
         boolean passed = output.equals(exp_output);

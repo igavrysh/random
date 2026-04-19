@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class Solution_864 {
+public class lc0864 {
     public static class TreeNode {
         int val;
         TreeNode left;
@@ -70,21 +70,21 @@ public class Solution_864 {
 
     public static void test1() {
         TreeNode root = new TreeNode(1, new TreeNode(1, new TreeNode(3), new TreeNode(2)), null);
-        Solution_864 sol = new Solution_864();
+        lc0864 sol = new lc0864();
         List<Integer> output = sol.distanceK(root, new TreeNode(2), 1);
         System.out.println("output: " + output);
     }
 
     public static void test2() {
         TreeNode root = new TreeNode(0, new TreeNode(2), new TreeNode(1, new TreeNode(3), null));
-        Solution_864 sol = new Solution_864();
+        lc0864 sol = new lc0864();
         List<Integer> output = sol.distanceK(root, new TreeNode(3), 3);
         System.out.println("output: " + output);
     }
 
     public static void main(String[] args) {
         TreeNode root = new TreeNode(0, new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3, null, new TreeNode(4)))), null);
-        Solution_864 sol = new Solution_864();
+        lc0864 sol = new lc0864();
         List<Integer> output = sol.distanceK(root, new TreeNode(3), 0);
         System.out.println("output: " + output);
     }

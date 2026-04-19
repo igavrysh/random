@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class leetcode2081 {
+class lc2081 {
     public long kMirror(int k, int n) {
         int counter = 0;
         int num=1;
@@ -49,7 +49,7 @@ class leetcode2081 {
     public static void test1() {
         int k = 2;
         int n = 5;
-        leetcode2081 sol = new leetcode2081();
+        lc2081 sol = new lc2081();
         long res = sol.kMirror(k, n);
         boolean passed = res == 25;
         System.out.println("test1: " + (passed ? "passed" : "failed"));

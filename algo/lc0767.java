@@ -1,4 +1,5 @@
 import java.util.PriorityQueue;
+
 class leetcode0767 {
     public String reorganizeString(String s) {
         int[] fq = new int[26];
@@ -42,4 +43,3 @@ class leetcode0767 {
         int t = 1;
     }
 }
-///

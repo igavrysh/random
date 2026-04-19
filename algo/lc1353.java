@@ -1,6 +1,6 @@
 import java.util.Arrays;
 import java.util.PriorityQueue;;
-class leetcode1353 { 
+class lc1353 { 
     public int maxEvents(int[][] events) {
         Arrays.sort(events, (int[] e1, int[] e2) -> {
             if (e1[0]==e2[0]) {
@@ -33,7 +33,7 @@ class leetcode1353 {
     }
     public static void test2() {
         int[][] events = {{1,2},{1,2},{3,3},{1,5},{1,5}};
-        leetcode1353 sol = new leetcode1353();
+        lc1353 sol = new lc1353();
         int output = sol.maxEvents(events);
         int exp_output = 5;
         boolean passed = output == exp_output;
@@ -41,7 +41,7 @@ class leetcode1353 {
     }
     public static void test1() {
         int[][] events = {{1,2},{2,3},{3,4}};
-        leetcode1353 sol = new leetcode1353();
+        lc1353 sol = new lc1353();
         int output = sol.maxEvents(events);
         int exp_output = 3;
         boolean passed = output == exp_output;

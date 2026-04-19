@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-class leetcode2471 {
+class lc2471 {
     public static class TreeNode {
         int val;
         TreeNode left;
@@ -75,7 +75,7 @@ class leetcode2471 {
             null,null,null,null,null,null,36,null,null,302,190,null,280,null,
             null,null,null,488,null,null,null,null,446,null,null,null,null,null,75};
         TreeNode root = buildTree(input);
-        leetcode2471 sol = new leetcode2471();
+        lc2471 sol = new lc2471();
         int exp_output = 24;
         int output = sol.minimumOperations(root);
         boolean passed = output == exp_output;

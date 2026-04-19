@@ -1,4 +1,4 @@
-public class leetcode73 {
+public class lc0073 {
     public void setZeroes(int[][] matrix) {
         int n = matrix.length;
         int m = matrix[0].length;
@@ -30,7 +30,7 @@ public class leetcode73 {
     }
 
     public static void main(String[] args) {
-        leetcode73 sol = new leetcode73();
+        lc0073 sol = new lc0073();
         int[][] matrix = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
         sol.setZeroes(matrix);
     }

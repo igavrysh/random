@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-class leetcode1857 {
+class lc1857 {
     public int largestPathValue(String colors, int[][] edges) {
         HashMap<Integer, ArrayList<Integer>> G = new HashMap<>();
         int n = colors.length();
@@ -93,7 +93,7 @@ class leetcode1857 {
             {51,57},{56,57},{50,57},{53,58},{35,58},{43,59},{47,59},{54,59},{45,60},{57,60},{47,60},
             {58,61},{35,61},{61,62},{52,63},{48,63},{47,63},{56,64},{61,64},{52,64}
         };
-        leetcode1857 sol = new leetcode1857();
+        lc1857 sol = new lc1857();
         int output = sol.largestPathValue(colors, edges);
         int exp_output = 11;
         boolean passed = output == exp_output;
@@ -103,7 +103,7 @@ class leetcode1857 {
     public static void test21() {
         String colors = "hhqhuqhqff";
         int[][] edges = {{0,1},{0,2},{2,3},{3,4},{3,5},{5,6},{2,7},{6,7},{7,8},{3,8},{5,8},{8,9},{3,9},{6,9}};
-        leetcode1857 sol = new leetcode1857();
+        lc1857 sol = new lc1857();
         int output = sol.largestPathValue(colors, edges);
         int exp_output = 3;
         boolean passed = output == exp_output;

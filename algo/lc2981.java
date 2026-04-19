@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-class Solution2981 {
+
+class lc2981 {
     public int maximumLength(String s) {
         @SuppressWarnings("unchecked")
         ArrayList<int[]>[] a = new ArrayList[26];
@@ -86,7 +87,7 @@ class Solution2981 {
     }
     public static void main(String[] args) {
         String s = "ceeeeeeeeeeeebmmmfffeeeeeeeeeeeewww";
-        Solution2981 sol = new Solution2981();
+        lc2981 sol = new lc2981();
         int output = sol.maximumLength(s);
         boolean passed = output == 3;
         System.out.println(passed ? "passed" : "failed");

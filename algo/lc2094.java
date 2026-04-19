@@ -1,7 +1,7 @@
 import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Iterator;
-class leetcode2094 {
+class lc2094 {
     public int[] findEvenNumbers(int[] digits) {
         TreeMap<Integer, Integer> fq = new TreeMap<>((Integer k1, Integer k2) -> Integer.compare(k1,k2));
         for (int i=0;i<digits.length;i++) {
@@ -46,7 +46,7 @@ class leetcode2094 {
     }
     public static void test1() {
         int[] nums = {2,1,3,0};
-        leetcode2094 sol = new leetcode2094();
+        lc2094 sol = new lc2094();
         int[] res = sol.findEvenNumbers(nums);
         for (int r : res) {
             System.out.println(r);

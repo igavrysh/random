@@ -1,4 +1,4 @@
-public class leetcode2040 {
+public class lc2040 {
     public long kthSmallestProduct(int[] nums1, int[] nums2, long k) {
         int nums2_m=nums2.length;
         for (int i=0;i<nums2.length;i++) {
@@ -66,7 +66,7 @@ public class leetcode2040 {
         int[] nums1 = {2,5};
         int[] nums2 = {3,4};
         int k = 2;
-        leetcode2040 sol = new leetcode2040();
+        lc2040 sol = new lc2040();
         long output = sol.kthSmallestProduct(nums1, nums2, k);
         long exp_output = 8;
         boolean passed = output == exp_output;
@@ -77,7 +77,7 @@ public class leetcode2040 {
         int[] nums1 = {-4,-2,0,3};
         int[] nums2 = {2,4};
         int k = 6;
-        leetcode2040 sol = new leetcode2040();
+        lc2040 sol = new lc2040();
         long output = sol.kthSmallestProduct(nums1, nums2, k);
         long exp_output = 0;
         boolean passed = output == exp_output;

@@ -1,5 +1,4 @@
-public class Solution_474 {
-
+public class lc0474 {
     private int dp(int i, int[][] strs, int zeros, int ones, Integer[][][] dp) {
         if (i==strs.length) {
             if (zeros>=0 && ones>=0) {
@@ -52,7 +51,7 @@ public class Solution_474 {
 
     public static void test1() {
         String[] strs = new String[] {"00011","00001","00001","0011","111"};
-        Solution_474 sol = new Solution_474();
+        lc0474 sol = new lc0474();
         int output = sol.findMaxForm(strs, 8, 5);
         boolean passed = output == 3;
         System.out.println("test1:" + (passed ? "passed" : "failed"));

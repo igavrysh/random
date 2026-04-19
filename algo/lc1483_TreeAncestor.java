@@ -1,7 +1,7 @@
-public class leetcode1483_TreeAncestor {
+public class lc1483_TreeAncestor {
     private int LOG = 0;
     private int[][] up;
-    public leetcode1483_TreeAncestor(int n, int[] parent) {
+    public lc1483_TreeAncestor(int n, int[] parent) {
        int val = 1;
         while (val < n) {
             val = val << 1;
@@ -36,14 +36,14 @@ public class leetcode1483_TreeAncestor {
         test1();
     }
     public static void test2() {
-        leetcode1483_TreeAncestor sol = new leetcode1483_TreeAncestor(
+        lc1483_TreeAncestor sol = new lc1483_TreeAncestor(
             2, new int[]{-1,0});
         int output = sol.getKthAncestor(1, 2);
         boolean passed = output == -1;
         System.out.println("test2:" + (passed ? "passed" : "failed"));
     }
     public static void test1() {
-        leetcode1483_TreeAncestor sol = new leetcode1483_TreeAncestor(
+        lc1483_TreeAncestor sol = new lc1483_TreeAncestor(
             4, new int[]{-1,2,3,0});
         int output = sol.getKthAncestor(2, 2);
         boolean passed = output == 0;

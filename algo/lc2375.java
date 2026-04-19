@@ -1,4 +1,4 @@
-class leetcode2375 {
+class lc2375 {
     public String smallestNumber(String pattern) {
         boolean[] used = new boolean[10];
         StringBuilder sb = new StringBuilder();
@@ -57,7 +57,7 @@ class leetcode2375 {
     public static void test2() {
         String s = "DDD";
         String exp_output = "4321";
-        leetcode2375 sol = new leetcode2375();
+        lc2375 sol = new lc2375();
         String output = sol.smallestNumber(s);
         boolean passed = (exp_output == null && output == null) || (output != null && output.equals(exp_output));
         System.out.println("test2: " + (passed ? "passed" : "failed"));
@@ -65,7 +65,7 @@ class leetcode2375 {
     public static void test1() {
         String s = "IIIDIDDD";
         String exp_output = "123549876";
-        leetcode2375 sol = new leetcode2375();
+        lc2375 sol = new lc2375();
         String output = sol.smallestNumber(s);
         boolean passed = (exp_output == null && output == null) || (output != null && output.equals(exp_output));
         System.out.println("test1: " + (passed ? "passed" : "failed"));
