@@ -114,4 +114,6 @@ class Lexer:
             # Check if its an alpha character (a letter) or _, then we must handle and identifier
             elif ch.isalpha() or ch == '_':
                 self.handle_identifier()
+            else:
+                raise SyntaxError(f'[Line {self.line}] Error at {ch}: Unexpected character.')
         return self.tokens
