@@ -5,7 +5,7 @@ class TreeNode:
         self.left = left
         self.right = right
 
-class Solution:
+class Solution0114:
     def flatten(self, root: Optional[TreeNode]) -> None:
         """
         Do not return anything, modify root in-place instead.
