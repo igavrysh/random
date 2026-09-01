@@ -1,3 +1,5 @@
+from typing import List
+
 class lc1886:
     def findRotation(self, mat: List[List[int]], target: List[List[int]]) -> bool:
         rows = len(mat)
