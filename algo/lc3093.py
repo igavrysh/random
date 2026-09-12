@@ -1,18 +1,20 @@
 from collections import deque
 from typing import List
+
 class TrieNode:
     def __init__(self, is_eow = False, min_len = -1, min_len_idx = -1):
         self.ch = [None] * 26
         self.is_eow = is_eow
         self.min_len = min_len
         self.min_len_idx = min_len_idx
+
 class Solution3093:
     def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
         def addWord(trie: TrieNode, word: str, word_idx: int):
             node = trie
             if trie.min_len == -1 or (trie.min_len > len(word) or (trie.min_len == len(word) and trie.min_len_idx == word_idx)):
                 trie.min_len = len(word)
-                trie.min_len_idx = word_idx 
+                trie.min_len_idx = word_idx
             for (i, ch) in enumerate(word[::-1]):
                 idx = ord(ch) - ord('a')
                 if node.ch[idx] is None:
@@ -25,7 +27,7 @@ class Solution3093:
                         node.ch[idx].min_len = len(word)
                         node.ch[idx].min_len_idx = word_idx
                 node = node.ch[idx]
-        
+
         def findMaxMatchNode(trie: TrieNode, word: str):
             node = trie
             for (i, ch) in enumerate(word[::-1]):
@@ -34,7 +36,7 @@ class Solution3093:
                     break
                 node = node.ch[idx]
             return node
-        
+
         trie = TrieNode()
         for (i, word) in enumerate(wordsContainer):
             addWord(trie, word, i)
@@ -52,7 +54,7 @@ def test01():
     exp_res = [1,1,1]
     passed = res == exp_res
     print(f"test_01: {"passed" if passed else "failed"}")
-    
+
 def main():
     test01()
 
