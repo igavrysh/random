@@ -33,7 +33,6 @@ class Solution:
                 res = max(res, dp_b[i][s], dp_s[i][s], dp_na[i][s])
         # print(f"dp_b:{dp_b}\ndp_s:{dp_s}\ndp_na:{dp_na}")
         return res
-    
 
 # Defining main function
 def main():
