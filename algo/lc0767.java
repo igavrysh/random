@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
 class leetcode0767 {
@@ -33,6 +35,8 @@ class leetcode0767 {
         return sb.toString();
     }
     public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add(null);
         test1();
     }
 
@@ -42,4 +46,5 @@ class leetcode0767 {
         String output = sol.reorganizeString(s);
         int t = 1;
     }
+
 }
