@@ -1,7 +1,10 @@
+from typing import List
+from collections import defaultdict
+
 class lc4085:
-    def findColoredRoot(self, edges: list[list[int]], colors: str) -> int:
-        n = len(colors)
-        colors = list(colors)
+    def findColoredRoot(self, edges: list[list[int]], cs: str) -> int:
+        n = len(cs)
+        colors = list(cs)
         G = {}
         degree = [0]*n
         for i in range(n):
@@ -31,50 +34,55 @@ class lc4085:
             counter.append(d)
             for key in combs:
                 d[key] = [0]*3  # depth mod 3 as index, freq as value
-        def dfs(v: int, depth: int, G: dict[int, set[int]], visited:list[bool], counter: list[dict[str, list[int]]]):
-            for neigh in G[v]:
-                if visited[neigh]:
-                    continue
-                visited[neigh] = True
-                key = colors[v]+colors[neigh]
-                counter[0][key][depth%3] += 1
-                dfs(neigh, depth+1, G, visited, counter)
-        visited[start] = True
-        dfs(start, 0, G, visited, counter)
-        print(f'counter: {counter}')
 
-        def check(v: int, counter: list[dict[str, list[int]]]) -> bool:
+        def check(v: int, counter: dict[str, list[int]]) -> bool:
             offset = root_to_idx[colors[v]]
-            for apprdep in range(2):
-                for key in counter[apprdep]:
-                    frm = root_to_idx[key[0]]
-                    allowed_positive = (offset + frm + 3)%3
-                    for mod3_depth in range(3): # [depth%3==0, depth%3==1, depth%3==2]
-                        if mod3_depth != allowed_positive and counter[apprdep][key][mod3_depth]>0:
-                            return False
-                        offset = root
+            for key in counter:
+                frm = root_to_idx[key[0]]
+                allowed_positive = (offset + frm + 3)%3
+                for mod3_depth in range(3): # [depth%3==0, depth%3==1, depth%3==2]
+                    if mod3_depth != allowed_positive and counter[key][mod3_depth]>0:
+                        return False
             return True
 
-        # def dfs2(v: int, depth: int, G: dict[int, set[int]], visited:list[bool], counter: list[dict[str, list[int]]], res: list[int]):
-        #     if len(res)>0:
-        #         return
-            
-        #     if check(v, counter):
-        #         res.append(v)
-        #         return
+        def dfs(v: int, depth: int, G: dict[int, set[int]], visited:list[bool], counter: dict[str, list[int]], res: list[int]) -> dict[str, list[int]]:
+            if len(res)>0:
+                return  defaultdict(list)
+            counter_out = defaultdict(list)
+            frm = colors[v]
+            for neigh_v in G[v]:
+                if visited[neigh_v]:
+                    continue
+                visited[neigh_v] = True
+                to = colors[neigh_v]
+                counter_to_pass =  defaultdict(list)
+                if len(counter_to_pass[to+frm])==0:
+                    counter_to_pass[to+frm] = [0]*3
+                counter_to_pass[to+frm][0] += 1
+                for key in counter:
+                    for d in range(3):
+                        counter_to_pass[key][(d+1)%3] = counter_to_pass[key][d%3]
+                counter_res = dfs(neigh_v, depth+1, G, visited, counter_to_pass, res)
+                if len(res)>0:
+                    return defaultdict(list)
+                if len(counter_out[frm+to])==0:
+                    counter_out[frm+to] = [0]*3
+                counter_out[frm+to][0] += 1
+                for key in counter_res:
+                    for d in range(3):
+                        counter_out[key][(d+1)%3] += counter_res[key][d%3]
+            if degree[v]<=2 and len(res)==0 and check(v, counter_out) and check(v, counter):
+                res.append(v)
+                return defaultdict(list)
+            return counter_out
 
-        #     for neigh in G[v]:
-        #         if visited[neigh]:
-        #             continue
-        #         visited[neigh] = True
-        #         old_key = colors[v] + colors[neigh]
-        #         new_key = colors[neigh] + colors[v]
-        #         new_counter = {}
-        #         for apprdep in range(2):
+        res = []
+        visited = [False] * n
+        visited[start] = True
+        counter = defaultdict(list)
+        dfs(start, 0, G, visited, counter, res)
 
-        #         counter[0][old_key][0] -= 1
-        #         counter[1][new_key][0] += 1
-        return -1
+        return res[0] if len(res)>0 else -1
 
 def test_01():
     edges = [[3,1],[3,2],[1,4],[2,0]]
